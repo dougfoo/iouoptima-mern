@@ -25,7 +25,6 @@ INSTALLED_APPS = [
 
     'customers',
     'loans',
-    'articles'
 ]
 
 MIDDLEWARE = [
