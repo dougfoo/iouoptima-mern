@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 function Header() {
   return (
     <header style={headerStyle}>
-      <h1>TodoList</h1>
-      <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link>
+      <h1>IOU Optima Beta</h1>
+      <Link style={linkStyle} to="/">Users</Link> | 
+      <Link style={linkStyle} to="/loans">Loans</Link> | 
+      <Link style={linkStyle} to="/about">About</Link>
     </header>
   )
 }
