@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class Customers extends Component {
   render() {
     return this.props.Customers.map((customer) => (
-      <CustomerItem key={customer.id} customer={customer} markComplete={this.props.markComplete} delCustomer={this.props.delCustomer} />
+      <CustomerItem key={customer.id} markComplete={this.props.markComplete} delCustomer={this.props.delCustomer} />
     ));
   }
 }
