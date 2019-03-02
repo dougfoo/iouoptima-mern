@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
-import Todos from './components/Todos';
-import AddTodo from './components/AddTodo';
-import AddLoan from './components/AddLoan';
 import About from './components/pages/About';
 import Loans from './components/Loans';
+import Customers from './components/Customers';
+import AddCustomer from './components/AddCustomer';
+import AddLoan from './components/AddLoan';
 // import uuid from 'uuid';
 import axios from 'axios';
 import './App.css';
 
 class App extends Component {
   state = {
-    todos: [
+    customers: [
       {
         id: 1,
         title: 'customer 1 doug',
@@ -46,27 +46,27 @@ class App extends Component {
 
   // Toggle Complete
   markComplete = (id) => {
-    this.setState({ todos: this.state.todos.map(todo => {
-      if(todo.id === id) {
-        todo.completed = !todo.completed
-      }
-      return todo;
-    }) });
+    // this.setState({ todos: this.state.todos.map(todo => {
+    //   if(todo.id === id) {
+    //     todo.completed = !todo.completed
+    //   }
+    //   return todo;
+    // }) });
   }
 
-  // Delete Todo
-  delTodo = (id) => {
-    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-      .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
+  // Delete Customer
+  delCustomer = (id) => {
+    // axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    //   .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
   }
 
   // Add Todo
-  addTodo = (title) => {
-    axios.post('https://jsonplaceholder.typicode.com/todos', {
-      title,
-      completed: false
-    })
-      .then(res => this.setState({ todos: [...this.state.todos, res.data] }));
+  addCustomer = (title) => {
+    // axios.post('https://jsonplaceholder.typicode.com/todos', {
+    //   title,
+    //   completed: false
+    // })
+    //   .then(res => this.setState({ todos: [...this.state.todos, res.data] }));
   }
 
   // Add Loan
@@ -74,8 +74,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('todos state')
-    console.log(this.state.todos)
     return (
       <Router>
         <div className="App">
@@ -83,8 +81,8 @@ class App extends Component {
             <Header />
             <Route exact path="/" render={props => (
               <React.Fragment>
-                <AddTodo addTodo={this.addTodo} />
-                <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo} />
+                <AddCustomer addCustomer={this.addCustomer} />
+                <Customers customers={this.state.customers} markComplete={this.markComplete} delCustomer={this.delCustomer} />
               </React.Fragment>
             )} />
             <Route exact path="/loans" render={props => (

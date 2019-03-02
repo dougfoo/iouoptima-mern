@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import TodoItem from './TodoItem';
+import CustomerItem from './CustomerItem';
 import PropTypes from 'prop-types';
 
 class Customers extends Component {
   render() {
-    return this.props.Customers.map((customer) => (
-      <CustomerItem key={customer.id} markComplete={this.props.markComplete} delCustomer={this.props.delCustomer} />
+    console.log('cust state')
+    console.log(this.props.customers)
+
+    return this.props.customers.map((customer) => (
+      <CustomerItem key={customer.id} customer={customer} markComplete={this.props.markComplete} delCustomer={this.props.delCustomer} />
     ));
   }
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class AddTodo extends Component {
+export class AddCustomer extends Component {
   state = {
     title: ''
   }
-
+  
   onSubmit = (e) => {
     e.preventDefault();
     this.props.addTodo(this.state.title);
@@ -21,7 +21,7 @@ export class AddTodo extends Component {
           type="text" 
           name="title" 
           style={{ flex: '10', padding: '5px' }}
-          placeholder="Add Todo ..." 
+          placeholder="Add Customer ..." 
           value={this.state.title}
           onChange={this.onChange}
         />
@@ -37,8 +37,8 @@ export class AddTodo extends Component {
 }
 
 // PropTypes
-AddTodo.propTypes = {
-  addTodo: PropTypes.func.isRequired
+AddCustomer.propTypes = {
+  addCustomer: PropTypes.func.isRequired
 }
 
-export default AddTodo
+export default AddCustomer
