@@ -1,20 +1,15 @@
 import React from "react";
 import axios from "axios";
-import Loans from "../components/Loan";
-import CustomForm from "../components/Form";
-
+import Loans from "../components/Loans";
 
 class LoanList extends React.Component {
-  state = {
-    loans: []
-  };
 
   fetchLoans = () => {
-    axios.get("http://127.0.0.1:8000/api/").then(res => {
+//    axios.get("http://127.0.0.1:8000/api/").then(res => {
       this.setState({
-        loans: res.data
+        loans: []
       });
-    });
+//    });
   }
 
   componentDidMount() {
@@ -32,8 +27,6 @@ class LoanList extends React.Component {
       <div>
         <Loans data={this.state.loans} /> <br />
         <h2>Create a loan</h2>
-        <CustomForm requestType="post" 
-            loanID={null} btnText="Create" />
       </div>
     );
   }
