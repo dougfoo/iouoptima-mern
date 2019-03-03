@@ -9,6 +9,7 @@ function Header() {
       <Link style={linkStyle} to="/loans"> Loans</Link> | 
       <Link style={linkStyle} to="/about"> About</Link>
     </header>
+    
   )
 }
 
