@@ -16,6 +16,9 @@ export class LoanItem extends Component {
     return (
       <div style={this.getStyle()}>
         <p>
+          { id }
+        </p>
+        <p>
           { title }
         </p>
       </div>
@@ -28,6 +31,7 @@ LoanItem.propTypes = {
   loan: PropTypes.object.isRequired,
 }
 
+/*
 const btnStyle = {
   background: '#ff0000',
   color: '#fff',
@@ -37,5 +41,6 @@ const btnStyle = {
   cursor: 'pointer',
   float: 'right'
 }
+*/
 
 export default LoanItem

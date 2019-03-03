@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux'
 import Header from './components/layout/Header';
 import About from './components/pages/About';
 import Loans from './components/Loans';
 import Customers from './components/Customers';
 import AddCustomer from './components/AddCustomer';
 import AddLoan from './components/AddLoan';
+import Login from "./containers/Login";
+import Signup from "./containers/Signup";
+import 'antd/dist/antd.css';
+import * as actions from './store/actions/auth';
+import CustomLayout from './containers/Layout';
+
 // import uuid from 'uuid';
-import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -39,6 +45,9 @@ class App extends Component {
 
   };
 
+  componentDidMount() {
+    this.props.onTryAutoSignup();
+  }
   // componentDidMount() {
   //   axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
   //     .then(res => this.setState({ todos: res.data }))
@@ -92,6 +101,12 @@ class App extends Component {
               </React.Fragment>
             )} />
             <Route path="/about" component={About} />
+            <Router>
+              <CustomLayout {...this.props}>
+                <Route exact path="/login/" component={Login} />
+                <Route exact path="/signup/" component={Signup} />
+              </CustomLayout>
+            </Router>
           </div>  
         </div>
       </Router>
@@ -99,4 +114,18 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default App;
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.token !== null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
