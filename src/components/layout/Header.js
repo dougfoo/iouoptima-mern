@@ -6,8 +6,8 @@ function Header() {
     <header style={headerStyle}>
       <h1>IOU Optima <font color="#f00">Beta</font></h1>
       <Link style={linkStyle} to="/">Custs</Link> | 
-      <Link style={linkStyle} to="/loans"> Loans</Link> | 
-      <Link style={linkStyle} to="/about"> About</Link>
+      <Link style={linkStyle} to="/loans/"> Loans</Link> | 
+      <Link style={linkStyle} to="/about/"> About</Link>
     </header>
     
   )

@@ -88,25 +88,25 @@ class App extends Component {
         <div className="App">
           <div className="container">
             <Header />
-            <Route exact path="/" render={props => (
-              <React.Fragment>
-                <AddCustomer addCustomer={this.addCustomer} />
-                <Customers customers={this.state.customers} markComplete={this.markComplete} delCustomer={this.delCustomer} />
-              </React.Fragment>
-            )} />
-            <Route exact path="/loans" render={props => (
-              <React.Fragment>
-                <AddLoan addLoan={this.addLoan} />
-                <Loans loans={this.state.loans} />
-              </React.Fragment>
-            )} />
-            <Route path="/about" component={About} />
             <Router>
               <CustomLayout {...this.props}>
                 <Route exact path="/login/" component={Login} />
                 <Route exact path="/signup/" component={Signup} />
               </CustomLayout>
             </Router>
+            <Route exact path="/" render={props => (
+              <React.Fragment>
+                <AddCustomer addCustomer={this.addCustomer} />
+                <Customers customers={this.state.customers} markComplete={this.markComplete} delCustomer={this.delCustomer} />
+              </React.Fragment>
+            )} />
+            <Route exact path="/loans/" render={props => (
+              <React.Fragment>
+                <AddLoan addLoan={this.addLoan} />
+                <Loans loans={this.state.loans} />
+              </React.Fragment>
+            )} />
+            <Route exact path="/about/" component={About} />
           </div>  
         </div>
       </Router>
