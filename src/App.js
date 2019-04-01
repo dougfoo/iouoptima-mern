@@ -87,13 +87,10 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="container">
-            <Header />
-            <Router>
-              <CustomLayout {...this.props}>
-                <Route exact path="/login/" component={Login} />
-                <Route exact path="/signup/" component={Signup} />
-              </CustomLayout>
-            </Router>
+            <CustomLayout {...this.props}>
+              <Route exact path="/login/" component={Login} />
+              <Route exact path="/signup/" component={Signup} />
+            </CustomLayout>
             <Route exact path="/" render={props => (
               <React.Fragment>
                 <AddCustomer addCustomer={this.addCustomer} />
