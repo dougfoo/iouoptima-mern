@@ -16,7 +16,6 @@ class Customers extends Component {
 // PropTypes
 Customers.propTypes = {
   customers: PropTypes.array.isRequired,
-  email: PropTypes.func.isRequired,
   delCustomer: PropTypes.func.isRequired,
 }
 
