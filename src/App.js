@@ -20,13 +20,18 @@ class App extends Component {
     customers: [
       {
         id: 1,
-        title: 'customer 1 doug',
-        completed: false
+        name: 'doug foo',
+        email: 'doug.foo@gmail.com'
       },
       {
         id: 2,
-        title: 'cust 2 john',
-        completed: true
+        name: 'roxy',
+        email: 'foxy.foo@gmail.com'
+      },
+      {
+        id: 3,
+        name: 'robby jones',
+        email: 'rober@gmail.com'
       }
     ],
     loans: [
@@ -91,10 +96,10 @@ class App extends Component {
               <Route exact path="/login/" component={Login} />
               <Route exact path="/signup/" component={Signup} />
             </MenuLayout>
-            <Route exact path="/custs/" render={props => (
+            <Route exact path="/users/" render={props => (
               <React.Fragment>
                 <AddCustomer addCustomer={this.addCustomer} />
-                <Customers customers={this.state.customers} markComplete={this.markComplete} delCustomer={this.delCustomer} />
+                <Customers customers={this.state.customers} delCustomer={this.delCustomer} />
               </React.Fragment>
             )} />
             <Route exact path="/loans/" render={props => (

@@ -12,13 +12,13 @@ export class CustomerItem extends Component {
   }
 
   render() {
-    const { id, title } = this.props.customer;
+    const { id, name, email } = this.props.customer;
     return (
       <div style={this.getStyle()}>
         <p>
-          <input type="checkbox" onChange={this.props.markComplete.bind(this, id)} /> {' '}
-          { title }
-          <button onClick={this.props.delCustomer.bind(this, id)} style={btnStyle}>x</button>
+          <button onClick={this.props.delCustomer.bind(this, id)} style={btnStyleBlue}>Make IOU</button>
+          { name } - { email }
+          <button onClick={this.props.delCustomer.bind(this, id)} style={btnStyle}>Delete</button>
         </p>
       </div>
     )
@@ -41,4 +41,13 @@ const btnStyle = {
   float: 'right'
 }
 
+const btnStyleBlue = {
+  background: '#00f',
+  color: '#fff',
+  border: 'none',
+  padding: '5px 9px',
+  borderRadius: '50%',
+  cursor: 'pointer',
+  float: 'left'
+}
 export default CustomerItem

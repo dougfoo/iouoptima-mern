@@ -16,7 +16,7 @@ class MenuLayout extends React.Component {
                         <Link to="/login/">Login*TBD</Link>
                     </Menu.Item>
                     <Menu.Item key="1">
-                        <Link to="/custs/">Users</Link>
+                        <Link to="/users/">Users</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Link to="/loans/">Loans</Link>

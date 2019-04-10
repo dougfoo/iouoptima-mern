@@ -8,7 +8,7 @@ class Customers extends Component {
     console.log(this.props.customers)
 
     return this.props.customers.map((customer) => (
-      <CustomerItem key={customer.id} customer={customer} markComplete={this.props.markComplete} delCustomer={this.props.delCustomer} />
+      <CustomerItem key={customer.id} customer={customer} delCustomer={this.props.delCustomer} />
     ));
   }
 }
@@ -16,7 +16,7 @@ class Customers extends Component {
 // PropTypes
 Customers.propTypes = {
   customers: PropTypes.array.isRequired,
-  markComplete: PropTypes.func.isRequired,
+  email: PropTypes.func.isRequired,
   delCustomer: PropTypes.func.isRequired,
 }
 
