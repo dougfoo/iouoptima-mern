@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux'
-import Header from './components/layout/Header';
 import About from './components/pages/About';
 import Loans from './components/Loans';
 import Customers from './components/Customers';
@@ -11,7 +10,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import 'antd/dist/antd.css';
 import * as actions from './store/actions/auth';
-import CustomLayout from './containers/Layout';
+import MenuLayout from './containers/MenuLayout';
 
 // import uuid from 'uuid';
 import './App.css';
@@ -80,6 +79,7 @@ class App extends Component {
 
   // Add Loan
   addLoan = (title) => {
+    console.log('addLoan');
   }
 
   render() {
@@ -87,11 +87,11 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="container">
-            <CustomLayout {...this.props}>
+            <MenuLayout {...this.props}>
               <Route exact path="/login/" component={Login} />
               <Route exact path="/signup/" component={Signup} />
-            </CustomLayout>
-            <Route exact path="/" render={props => (
+            </MenuLayout>
+            <Route exact path="/custs/" render={props => (
               <React.Fragment>
                 <AddCustomer addCustomer={this.addCustomer} />
                 <Customers customers={this.state.customers} markComplete={this.markComplete} delCustomer={this.delCustomer} />
@@ -104,6 +104,7 @@ class App extends Component {
               </React.Fragment>
             )} />
             <Route exact path="/about/" component={About} />
+            <Route exact path="/" component={About} />
           </div>  
         </div>
       </Router>
