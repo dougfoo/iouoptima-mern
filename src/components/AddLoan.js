@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 export class AddLoan extends Component {
   state = {
-    title: ''
+    email: '',
+    amount: 0,
+    desc: ''
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     this.props.addTodo(this.state.title);
-    this.setState({ title: '' });
+    this.setState({ email: '', amount: '', desc: ''});
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -17,20 +19,16 @@ export class AddLoan extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} style={{ display: 'flex' }}>
-        <input 
-          type="text" 
-          name="title" 
-          style={{ flex: '10', padding: '5px' }}
-          placeholder="Add New Loan ..." 
-          value={this.state.title}
-          onChange={this.onChange}
+        <input type="text" name="email" style={{ flex: '10', padding: '5px' }} 
+         placeholder="Loan email.."   value={this.state.email}          onChange={this.onChange}
         />
-        <input 
-          type="submit" 
-          value="Submit" 
-          className="btn"
-          style={{flex: '1'}}
+        <input type="text" name="amount" style={{ flex: '10', padding: '5px' }}
+          placeholder="Loan amount.." value={this.state.amount} onChange={this.onChange}
         />
+        <input type="text" name="desc" style={{ flex: '10', padding: '5px' }}
+          placeholder="Loan desc.." value={this.state.desc} onChange={this.onChange}
+        />
+        <input  type="submit" value="Submit" className="btn" style={{flex: '1'}} />
       </form>
     )
   }

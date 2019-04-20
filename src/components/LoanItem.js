@@ -7,19 +7,24 @@ export class LoanItem extends Component {
       background: '#f4f4f4',  
       padding: '10px',
       borderBottom: '1px #ccc dotted',
-      textDecoration: this.props.loan.completed ? 'line-through' : 'none'
     }
   }
 
   render() {
-    const { id, title } = this.props.loan;
+    const { id, email, amount, desc } = this.props.loan;
     return (
       <div style={this.getStyle()}>
         <p>
           { id }
         </p>
         <p>
-          { title }
+          { email }
+        </p>
+        <p>
+          {amount}
+        </p>
+        <p>
+          {desc}
         </p>
       </div>
     )
@@ -30,17 +35,5 @@ export class LoanItem extends Component {
 LoanItem.propTypes = {
   loan: PropTypes.object.isRequired,
 }
-
-/*
-const btnStyle = {
-  background: '#ff0000',
-  color: '#fff',
-  border: 'none',
-  padding: '5px 9px',
-  borderRadius: '50%',
-  cursor: 'pointer',
-  float: 'right'
-}
-*/
 
 export default LoanItem

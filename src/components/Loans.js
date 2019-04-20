@@ -8,8 +8,7 @@ class Loans extends Component {
     console.log(this.props.loans)
     
     return this.props.loans.map((loan) => (
-//      <LoanItem key={loan.id} loan={loan} markComplete={this.props.markComplete} delLoan={this.props.delLoan} />
-      <LoanItem key={loan.id} loan={loan} />
+      <LoanItem key={loan.id} loan={loan} delLoan={this.props.delLoan} />  
     ));
   }
 }
@@ -17,8 +16,6 @@ class Loans extends Component {
 // PropTypes
 Loans.propTypes = {
   loans: PropTypes.array.isRequired,
-//  markComplete: PropTypes.func.isRequired,
-//  delLoan: PropTypes.func.isRequired,
 }
 
 export default Loans;

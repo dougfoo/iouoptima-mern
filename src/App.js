@@ -37,13 +37,15 @@ class App extends Component {
     loans: [
       {
         id: 1,
-        title: 'loan 1',
-        completed: false
+        email: 'jon@gmailcom',
+        amount: 333,
+        desc: 'loan 1'
       },
       {
         id: 2,
-        title: 'loan 2',
-        completed: true
+        email: 'jason@gmailcom',
+        amount: 13,
+        desc: 'loan 2'
       }
     ]
 
@@ -102,7 +104,25 @@ class App extends Component {
   // Add Loan
   addLoan = (amount, email, desc) => {
     console.log('addLoan '+amount+','+email+','+desc);
+    this.setState(state => {
+      const nextid = 4   // temp 4 need to get next one
+      const loans = this.state.loans.concat({ id: nextid, amount: amount, email: email, desc: desc})
+      return {
+        loans,
+      }
+    });
   }
+
+  delLoan = (id) => {
+    console.log('delete ' + id)
+    this.setState(state => {
+      let loans = this.state.loans.filter(i => i.id != id)
+      return {
+        loans,
+      }
+    });
+  }
+
 
   render() {
     return (
