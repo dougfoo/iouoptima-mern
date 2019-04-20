@@ -81,11 +81,19 @@ class App extends Component {
     // })
     //   .then(res => this.setState({ todos: [...this.state.todos, res.data] }));
     console.log('addCustomer ' + name + ' - '+ email)
+    this.setState(state => {
+      const nextid = 4   // temp 4 need to get next one
+      const customers = this.state.customers.concat({ id: nextid, name: name, email: email })
+      return {
+        customers,    
+      }
+    });
+    console.log(this.state.customers)
   }
 
   // Add Loan
-  addLoan = (title) => {
-    console.log('addLoan');
+  addLoan = (amount, email, desc) => {
+    console.log('addLoan '+amount+','+email+','+desc);
   }
 
   render() {
