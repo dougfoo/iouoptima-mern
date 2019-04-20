@@ -71,6 +71,14 @@ class App extends Component {
   delCustomer = (id) => {
     // axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
     //   .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
+
+    console.log('delete '+id)
+    this.setState(state => {
+      let customers = this.state.customers.filter(i => i.id != id)
+      return {
+        customers,
+      }
+    });
   }
 
   // Add Todo
