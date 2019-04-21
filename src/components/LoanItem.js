@@ -18,6 +18,7 @@ export class LoanItem extends Component {
           <td>{email}</td>
           <td>{amount}</td>
           <td>{desc}</td>
+          <td><input type="checkbox" onChange={this.props.markComplete.bind(this, id)} /> {' '}</td>
         </tr>
     )
   }
@@ -26,6 +27,7 @@ export class LoanItem extends Component {
 // PropTypes
 LoanItem.propTypes = {
   loan: PropTypes.object.isRequired,
+  markComplete: PropTypes.func.isRequired,
 }
 
 export default LoanItem

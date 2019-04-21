@@ -39,13 +39,15 @@ class App extends Component {
         id: 1,
         email: 'jon@gmailcom',
         amount: '333',
-        desc: 'loan 1'
+        desc: 'loan 1',
+        completed: false
       },
       {
         id: 2,
         email: 'jason@gmailcom',
         amount: '13',
-        desc: 'loan 2'
+        desc: 'loan 2',
+        completed: true
       }
     ]
 
@@ -59,14 +61,16 @@ class App extends Component {
   //     .then(res => this.setState({ todos: res.data }))
   // }
 
-  // Toggle Complete
+  // Toggle Complete (rename to markLoanComplete)
   markComplete = (id) => {
-    // this.setState({ todos: this.state.todos.map(todo => {
-    //   if(todo.id === id) {
-    //     todo.completed = !todo.completed
-    //   }
-    //   return todo;
-    // }) });
+    this.setState({ 
+      loans: this.state.loans.map(loan => {
+        if(loan.id === id) {
+          loan.completed = !loan.completed
+        }
+        return loan;
+      })
+    });
   }
 
   // Delete Customer
@@ -155,7 +159,7 @@ class App extends Component {
                 */}
                 <table style={{ borderSpacing: '5', border: '1px solid black', width: '100%' }}>
                   <tbody>
-                    <Loans loans={this.state.loans} />
+                    <Loans markComplete={this.markComplete} loans={this.state.loans} />
                   </tbody>
                 </table>
               </React.Fragment>

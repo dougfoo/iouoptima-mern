@@ -12,13 +12,14 @@ export class AddLoan extends Component {
   state = {
     email: '',
     amount: '',
-    desc: ''
+    desc: '',
+    completed: false    
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     this.props.addLoan(this.state.email, this.state.amount, this.state.desc);
-    this.setState({ email: '', amount: '', desc: ''});
+    this.setState({ email: '', amount: '', desc: '', completed: false});
   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
