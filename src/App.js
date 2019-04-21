@@ -38,13 +38,13 @@ class App extends Component {
       {
         id: 1,
         email: 'jon@gmailcom',
-        amount: 333,
+        amount: '333',
         desc: 'loan 1'
       },
       {
         id: 2,
         email: 'jason@gmailcom',
-        amount: 13,
+        amount: '13',
         desc: 'loan 2'
       }
     ]
@@ -76,7 +76,7 @@ class App extends Component {
 
     console.log('delete '+id)
     this.setState(state => {
-      let customers = this.state.customers.filter(i => i.id != id)
+      let customers = this.state.customers.filter(i => i.id !== id)
       return {
         customers,
       }
@@ -102,27 +102,29 @@ class App extends Component {
   }
 
   // Add Loan
-  addLoan = (amount, email, desc) => {
+  addLoan = (email, amount, desc) => {
     console.log('addLoan '+amount+','+email+','+desc);
     this.setState(state => {
       const nextid = 4   // temp 4 need to get next one
-      const loans = this.state.loans.concat({ id: nextid, amount: amount, email: email, desc: desc})
+      const loans = this.state.loans.concat({ id: nextid, email: email, amount: amount, desc: desc})
       return {
         loans,
       }
     });
   }
 
+  // delete or maybe Mark loan is better
   delLoan = (id) => {
     console.log('delete ' + id)
     this.setState(state => {
-      let loans = this.state.loans.filter(i => i.id != id)
+      let loans = this.state.loans.filter(i => i.id !== id)
       return {
         loans,
       }
     });
   }
 
+  onSearch = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     return (
@@ -142,7 +144,20 @@ class App extends Component {
             <Route exact path="/loans/" render={props => (
               <React.Fragment>
                 <AddLoan addLoan={this.addLoan} />
-                <Loans loans={this.state.loans} />
+                <form>Insert Search Filter Here
+                  <input type="text" name="searchLoan" style={{ flex: '10', padding: '5px' }}
+                    placeholder="Loan search.." value="" onChange={this.onSearch}
+                  />
+                </form>
+
+                {/* should build better custom loan-table component or redo Loans component 
+                    something like this:  https://codepen.io/gregbarozzi/pen/XXMBLM?editors=0010
+                */}
+                <table style={{ borderSpacing: '5', border: '1px solid black', width: '100%' }}>
+                  <tbody>
+                    <Loans loans={this.state.loans} />
+                  </tbody>
+                </table>
               </React.Fragment>
             )} />
             <Route exact path="/about/" component={About} />

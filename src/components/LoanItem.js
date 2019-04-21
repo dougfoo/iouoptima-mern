@@ -13,20 +13,12 @@ export class LoanItem extends Component {
   render() {
     const { id, email, amount, desc } = this.props.loan;
     return (
-      <div style={this.getStyle()}>
-        <p>
-          { id }
-        </p>
-        <p>
-          { email }
-        </p>
-        <p>
-          {amount}
-        </p>
-        <p>
-          {desc}
-        </p>
-      </div>
+        <tr>
+          <td>{id}</td>
+          <td>{email}</td>
+          <td>{amount}</td>
+          <td>{desc}</td>
+        </tr>
     )
   }
 }

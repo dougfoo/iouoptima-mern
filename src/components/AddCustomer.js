@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 function validate(email) {
   // true means invalid, so our conditions got reversed
   return {
-//    email: email.length === 0,
     email: email.length === 0 || !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
   }
 }
