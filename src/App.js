@@ -6,7 +6,7 @@ import Loans from './components/Loans';
 import Customers from './components/Customers';
 import AddCustomer from './components/AddCustomer';
 import AddLoan from './components/AddLoan';
-import Login from "./containers/Login";
+import Login from "./components/Login";
 import Signup from "./containers/Signup";
 import 'antd/dist/antd.css';
 import * as actions from './store/actions/auth';
@@ -135,10 +135,12 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="container">
-            <MenuLayout {...this.props}>
-              <Route exact path="/login/" component={Login} />
-              <Route exact path="/signup/" component={Signup} />
-            </MenuLayout>
+            <MenuLayout {...this.props} />
+            <Route exact path="/login/" render={props => (
+              <React.Fragment>
+                <Login />
+              </React.Fragment>
+            )} />
             <Route exact path="/users/" render={props => (
               <React.Fragment>
                 <AddCustomer addCustomer={this.addCustomer} />
