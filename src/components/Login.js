@@ -22,11 +22,12 @@ export default class Login extends Component {
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
-    });
+    });    
   }
 
   handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault();  // stop side effect of click/go
+    console.log('handleSubmit on login')
   }
 
   render() {
@@ -34,7 +35,7 @@ export default class Login extends Component {
       <div className="Login">
       <Form onSubmit={this.handleSubmit}>
         <FormItem>
-            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
+            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleChange} placeholder="Email" />
         </FormItem>
 
         <FormItem>

@@ -21,17 +21,21 @@ class App extends Component {
       {
         id: 1,
         name: 'doug foo',
-        email: 'doug.foo@gmail.com'
+        email: 'doug.foo@gmail.com',
+        password: 'abcd'
       },
       {
         id: 2,
         name: 'roxy',
-        email: 'foxy.foo@gmail.com'
+        email: 'foxy.foo@gmail.com',
+        password: '1234'
+
       },
       {
         id: 3,
         name: 'robby jones',
-        email: 'rober@gmail.com'
+        email: 'rober@gmail.com',
+        password: 'ab12'
       }
     ],
     loans: [

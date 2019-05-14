@@ -12,7 +12,7 @@ export class CustomerItem extends Component {
   }
 
   render() {
-    const { id, name, email } = this.props.customer;
+    const { id, name, email, password } = this.props.customer;
     return (
       <div style={this.getStyle()}>
         <p>
