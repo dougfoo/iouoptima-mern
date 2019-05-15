@@ -1,58 +1,115 @@
 import React, { Component } from "react";
-import { Form, Input, Icon, Button } from 'antd';
+import ReactDom from "react-dom";
 import "./Login.css";
-import { NavLink } from 'react-router-dom';
-
-const FormItem = Form.Item;
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: ""
+      isLoginOpen: true, isRegisterOpen: false
     };
   }
 
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+  showLoginBox() {
+    this.setState({isRegisterOpen:false, isLoginOpen: true});
   }
 
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });    
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();  // stop side effect of click/go
-    console.log('handleSubmit on login')
+  showRegisterBox() {
+    this.setState({isRegisterOpen:true, isLoginOpen: false});
   }
 
   render() {
     return (
       <div className="Login">
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem>
-            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} onChange={this.handleChange} placeholder="Email" />
-        </FormItem>
-
-        <FormItem>
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-        </FormItem>
-
-        <FormItem>
-        <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
+        <div className="Container">
+          <div className="Box" onClick={this.showLoginBox.bind(this)}>
             Login
-        </Button>
-        Or 
-        <NavLink 
-            style={{marginRight: '10px'}} 
-            to='/signup/'> signup
-        </NavLink>
-        </FormItem>
-      </Form>
+          </div>
+          <div className="Box" onClick={this.showRegisterBox.bind(this)}>
+            Register
+          </div>      
+        </div>
+        <div className="Container">
+          { this.state.isLoginOpen && <LoginBox/> }
+          { this.state.isRegisterOpen && <RegisterBox/> }
+        </div>
+      </div>
+    );
+  }
+}
+
+class LoginBox extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+    };
+  }
+
+  submitLogin() {
+  }
+
+  render() {
+    return (
+      <div className="Login">
+        <div className="Header">
+        Login
+        </div>
+        <div className="Box"> 
+          <div className="input-group">
+            <label htmlFor="username">Username</label>      
+            <input type="text" name="username" className="login-input" placeholder="Username" />
+          </div>          
+          <div className="input-group">
+            <label htmlFor="password">Password</label>      
+            <input type="password" name="password" className="login-input" placeholder="Password" />
+          </div>          
+
+          <button type="button" className="login-btn" onClick={this.submitLogin.bind(this)}>Login</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class RegisterBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  submitRegister() {
+  }
+
+
+  render() {
+    return (
+      <div className="Login">
+        <div className="Header">
+        Register
+        </div>
+        <div className="Box"> 
+          <div className="input-group">
+            <label htmlFor="username">Username</label>      
+            <input type="text" name="username" className="login-input" placeholder="Username" />
+          </div>          
+          <div className="input-group">
+            <label htmlFor="password">Password</label>      
+            <input type="password" name="password" className="login-input" placeholder="Password" />
+          </div>          
+          <div className="input-group">
+            <label htmlFor="password">Password Confirm</label>      
+            <input type="password" name="password2" className="login-input" placeholder="Password" />
+          </div>          
+          <div className="input-group">
+            <label htmlFor="email">Email</label>      
+            <input type="text" name="email" className="login-input" placeholder="Email" />
+          </div>          
+
+          <button type="button" className="login-btn" onClick={this.submitRegister.bind(this)}>Register</button>
+        </div>
       </div>
     );
   }
