@@ -22,16 +22,16 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <div className="Container">
-          <div className="Box" onClick={this.showLoginBox.bind(this)}>
+      <div className="root-container">
+        <div className="box-container">
+          <div className="controller" onClick={this.showLoginBox.bind(this)}>
             Login
           </div>
-          <div className="Box" onClick={this.showRegisterBox.bind(this)}>
+          <div className="controller" onClick={this.showRegisterBox.bind(this)}>
             Register
           </div>      
         </div>
-        <div className="Container">
+        <div className="box-container">
           { this.state.isLoginOpen && <LoginBox/> }
           { this.state.isRegisterOpen && <RegisterBox/> }
         </div>
@@ -53,11 +53,11 @@ class LoginBox extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <div className="Header">
+      <div className="inner-container">
+        <div className="header">
         Login
         </div>
-        <div className="Box"> 
+        <div className="box"> 
           <div className="input-group">
             <label htmlFor="username">Username</label>      
             <input type="text" name="username" className="login-input" placeholder="Username" />
@@ -134,7 +134,6 @@ class RegisterBox extends Component {
 
 
   render() {
-
     let usernameErr = null, passwordErr = null, emailErr = null;
 
     for (let err of this.state.errors) {
@@ -150,11 +149,11 @@ class RegisterBox extends Component {
     }
 
     return (
-      <div className="Login">
-        <div className="Header">
+      <div className="inner-container">
+        <div className="header">
         Register
         </div>
-        <div className="Box"> 
+        <div className="box"> 
           <div className="input-group">
             <label htmlFor="username">Username</label>      
             <input onChange={this.onUsernameChange.bind(this)} type="text" name="username" className="login-input" placeholder="Username" />
