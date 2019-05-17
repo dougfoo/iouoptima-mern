@@ -45,13 +45,62 @@ class LoginBox extends Component {
     super(props);
 
     this.state = {
-    };
+      errors: [],
+      username: '',
+      password: ''
+    }
   }
 
   submitLogin() {
+    if (this.state.username == '') {
+      this.showValidationErr("username", "username is empty");
+    }
+    if (this.state.password == '') {
+      this.showValidationErr("password", "password is empty");
+    } 
+
+    console.log('submitLogin'+ this.state.username + ' ' + this.state.password);
+  }
+
+  showValidationErr(elem, msg) {
+    this.setState((prevState) => ({ errors: [ ...prevState.errors, { elem, msg }]}));
+  }
+
+  onPasswordChange(e) {
+    this.setState({ password: e.target.value });
+    console.log('change passwrod: '+e.target.value);
+    this.clearValidationErr('password');
+  }
+
+  onUsernameChange(e) {
+    this.setState({ username: e.target.value });
+    console.log('change username: '+e.target.value);
+    this.clearValidationErr('username');
+  }
+
+  clearValidationErr(elem) {
+    this.setState((prevState) => {
+      let newarr = []
+      for (let err of prevState.errors) {
+        if (elem != err.elem) {
+          newarr.push(err);
+        }        
+      }
+      return {errors: newarr};
+    });
   }
 
   render() {
+    let usernameErr = null, passwordErr = null;
+
+    for (let err of this.state.errors) {
+      if (err.elem == "username") {
+        usernameErr = err.msg;
+      }
+      else if (err.elem == "password") {
+        passwordErr = err.msg;
+      }
+    }
     return (
       <div className="inner-container">
         <div className="header">
@@ -60,11 +109,13 @@ class LoginBox extends Component {
         <div className="box"> 
           <div className="input-group">
             <label htmlFor="username">Username</label>      
-            <input type="text" name="username" className="login-input" placeholder="Username" />
+            <input type="text" onChange={this.onUsernameChange.bind(this)} name="username" className="login-input" placeholder="Username" />
+            <small className="danger-error">{ usernameErr ? usernameErr : '' }</small>
           </div>          
           <div className="input-group">
             <label htmlFor="password">Password</label>      
-            <input type="password" name="password" className="login-input" placeholder="Password" />
+            <input type="password" onChange={this.onPasswordChange.bind(this)} name="password" className="login-input" placeholder="Password" />
+            <small className="danger-error">{ passwordErr ? passwordErr : '' }</small>
           </div>          
 
           <button type="button" className="login-btn" onClick={this.submitLogin.bind(this)}>Login</button>
@@ -95,7 +146,7 @@ class RegisterBox extends Component {
     } 
     if (this.state.email == '') {
       this.showValidationErr("email", "email is empty");
-    }
+    } 
   }
 
   showValidationErr(elem, msg) {
@@ -157,12 +208,12 @@ class RegisterBox extends Component {
           <div className="input-group">
             <label htmlFor="username">Username</label>      
             <input onChange={this.onUsernameChange.bind(this)} type="text" name="username" className="login-input" placeholder="Username" />
-            <small className="danger-warning">{ usernameErr ? usernameErr : '' }</small>
+            <small className="danger-error">{ usernameErr ? usernameErr : '' }</small>
           </div>          
           <div className="input-group">
             <label htmlFor="password">Password</label>      
             <input onChange={this.onPasswordChange.bind(this)} type="password" name="password" className="login-input" placeholder="Password" />
-            <small className="danger-warning">{ passwordErr ? passwordErr : '' }</small>
+            <small className="danger-error">{ passwordErr ? passwordErr : '' }</small>
           </div>          
           <div className="input-group">
             <label htmlFor="password">Password Confirm</label>      
@@ -171,7 +222,7 @@ class RegisterBox extends Component {
           <div className="input-group">
             <label htmlFor="email">Email</label>      
             <input onChange={this.onEmailChange.bind(this)} type="text" name="email" className="login-input" placeholder="Email" />
-            <small className="danger-warning">{ emailErr ? emailErr : '' }</small>
+            <small className="danger-error">{ emailErr ? emailErr : '' }</small>
           </div>          
 
           <button type="button" className="login-btn" onClick={this.submitRegister.bind(this)}>Register</button>
