@@ -166,6 +166,9 @@ class App extends Component {
                 </table>
               </React.Fragment>
             )} />
+            <Route  path="/loans2/" render={props => (
+              <Loans {...props} markComplete={this.markComplete} loans={this.state.loans} /> 
+            )} />
             <Route path="/about/" component={About} />
             <Route exact path="/" component={About} />
           </div>  
