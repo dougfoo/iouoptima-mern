@@ -6,10 +6,14 @@ import { stat } from "fs";
 export default class Login extends Component {
   constructor(props) {
     super(props);
-
+    this.setLogin = this.setLogin.bind(this);  // for sub-container callback
     this.state = {
-      isLoginOpen: true, isRegisterOpen: false
+      isLoginOpen: true, isRegisterOpen: false, s: false
     };
+  }
+
+  setLogin() {
+    this.setState({ isLoggedIn: true });
   }
 
   showLoginBox() {
@@ -32,8 +36,11 @@ export default class Login extends Component {
           </div>      
         </div>
         <div className="box-container">
-          { this.state.isLoginOpen && <LoginBox/> }
+          { this.state.isLoginOpen && <LoginBox callbackLogin={this.setLogin} /> }
           { this.state.isRegisterOpen && <RegisterBox/> }
+        </div>
+        <div className="header">
+          Logged in:  { this.state.isLoggedIn ? "Y" : "N" }
         </div>
       </div>
     );
@@ -47,7 +54,7 @@ class LoginBox extends Component {
     this.state = {
       errors: [],
       username: '',
-      password: ''
+      password: '',
     }
   }
 
@@ -58,6 +65,13 @@ class LoginBox extends Component {
     if (this.state.password == '') {
       this.showValidationErr("password", "password is empty");
     } 
+
+    if (this.state.username == 'dougcha' && this.state.password == 'dougcha') {
+      this.props.callbackLogin();   // callback to container
+    }
+    else {
+      this.showValidationErr("password", "usrname or password is incorrect");
+    }
 
     console.log('submitLogin'+ this.state.username + ' ' + this.state.password);
   }
@@ -104,7 +118,6 @@ class LoginBox extends Component {
     return (
       <div className="inner-container">
         <div className="header">
-        Login
         </div>
         <div className="box"> 
           <div className="input-group">
