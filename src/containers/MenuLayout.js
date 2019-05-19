@@ -8,10 +8,7 @@ class MenuLayout extends React.Component {
     render() {
         return (
             <Layout className="layout">
-                <Menu theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['3']}
-                    style={{ lineHeight: '64px' }} >
+                <Menu theme="dark"mode="horizontal" defaultSelectedKeys={['3']} style={{ lineHeight: '64px' }} >
                     <Menu.Item key="0">
                         <Link to="/login/">Login*TBD</Link>
                     </Menu.Item>
@@ -30,10 +27,12 @@ class MenuLayout extends React.Component {
     }
 }
 
+// hmm remove ?
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(actions.logout()) 
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(MenuLayout));
+// export default withRouter(connect(null, mapDispatchToProps)(MenuLayout));
+export default MenuLayout;
