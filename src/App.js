@@ -138,20 +138,16 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <div className="container">
+          <div className="header">
             <MenuLayout {...this.props} />
-            <Route exact path="/login/" render={props => (
-              <React.Fragment>
-                <Login />
-              </React.Fragment>
+          </div>
+          <div className="container">
+            <Route path="/login/" component={Login} />
+            <Route path="/users/" render={props => (
+                <Customers {...props} addCustomer={this.addCustomer} customers={this.state.customers} delCustomer={this.delCustomer} />
             )} />
-            <Route exact path="/users/" render={props => (
-              <React.Fragment>
-                <AddCustomer addCustomer={this.addCustomer} />
-                <Customers customers={this.state.customers} delCustomer={this.delCustomer} />
-              </React.Fragment>
-            )} />
-            <Route exact path="/loans/" render={props => (
+
+            <Route  path="/loans/" render={props => (
               <React.Fragment>
                 <AddLoan addLoan={this.addLoan} />
                 <form>Insert Search Filter Here
@@ -170,7 +166,7 @@ class App extends Component {
                 </table>
               </React.Fragment>
             )} />
-            <Route exact path="/about/" component={About} />
+            <Route path="/about/" component={About} />
             <Route exact path="/" component={About} />
           </div>  
         </div>
