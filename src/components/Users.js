@@ -38,7 +38,6 @@ class Users extends Component {
       <div>
         <div> 
           { this.state.isShowing ? <div onClick={this.closeModal} className="back-drop"></div> : null }
-          <button className="open-modal-btn" onClick={this.showModal}>Open Modal</button>
           <Modal
             title="Basic Modal"
             visible={this.state.isShowing}
@@ -57,7 +56,7 @@ class Users extends Component {
                 console.log(user);
                 return (
                   <tr className='tg'>
-                    <td className='tg'><Button onClick={this.onButtonClick.bind(this)}>Make IOU</Button></td>
+                    <td className='tg'><Button className="open-modal-btn" onClick={this.showModal}>Register IOU</Button></td>
                     <td className='tg'>{user.name}</td>
                     <td className='tg'>{user.email}</td>
                   </tr>
