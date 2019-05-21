@@ -8,7 +8,7 @@ class MenuLayout extends React.Component {
     render() {
         return (
             <Layout className="layout">
-                <Menu theme="dark"mode="horizontal" defaultSelectedKeys={['3']} style={{ lineHeight: '64px' }} >
+                <Menu theme="dark"mode="horizontal" defaultSelectedKeys={['4']} style={{ lineHeight: '64px' }} >
                     <Menu.Item key="0">
                         <Link to="/login/">Login*TBD</Link>
                     </Menu.Item>
@@ -16,9 +16,12 @@ class MenuLayout extends React.Component {
                         <Link to="/users/">Users</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
+                        <Link to="/users2/">Users Old</Link>
+                    </Menu.Item>
+                    <Menu.Item key="3">
                         <Link to="/loans/">Loans</Link>
                     </Menu.Item>                        
-                    <Menu.Item key="3">
+                    <Menu.Item key="4">
                         <Link to="/about/">About</Link>
                     </Menu.Item>
                 </Menu>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import About from './components/pages/About';
 import Loans from './components/Loans';
 import Customers from './components/Customers';
+import Users from './components/Users';
 import AddCustomer from './components/AddCustomer';
 import AddLoan from './components/AddLoan';
 import Login from "./components/Login";
@@ -144,9 +145,11 @@ class App extends Component {
           <div className="container">
             <Route path="/login/" component={Login} />
             <Route path="/users/" render={props => (
+                <Users {...props} users={this.state.customers} />
+            )} />
+            <Route path="/users2/" render={props => (
                 <Customers {...props} addCustomer={this.addCustomer} customers={this.state.customers} delCustomer={this.delCustomer} />
             )} />
-
             <Route  path="/loans/" render={props => (
               <React.Fragment>
                 <AddLoan addLoan={this.addLoan} />
