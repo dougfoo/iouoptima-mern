@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../App.css';
 import { Button } from 'antd/lib/radio';
-import { Modal, Input } from 'antd';
+import { Modal, Input, DatePicker, Form } from 'antd';
 
 class Users extends Component {
   constructor() {
@@ -20,6 +20,9 @@ class Users extends Component {
         selectedItem: i.email
     });
     console.log('showModal '+i.email);
+  }
+
+  onDateChange = () => {    
   }
 
   closeModal = () => {
@@ -43,9 +46,11 @@ class Users extends Component {
             onOk={this.closeModal}
             onCancel={this.closeModal}>
                   Make an IOU for: {this.state.selectedItem} 
-                  <Input size="small" placeholder="small size0" />
-                  <Input size="small" placeholder="small size1" />
-                  <Input size="small" placeholder="small size2" />
+                  <Form.Item label="Amount"/> <Input name="amount" size="small" placeholder="0.00" />
+                  Category <Input size="small" placeholder="personal loan" />
+                  Description <Input size="small" placeholder="dinner" />
+                  Date <DatePicker  />
+
           </Modal>
         </div>
         <div>

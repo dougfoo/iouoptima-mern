@@ -12,6 +12,7 @@ node_modules
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+package-lock.json
 env
 *.pyc
 
