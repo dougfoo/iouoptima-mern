@@ -9,26 +9,25 @@ class Users extends Component {
   constructor() {
     super();
     this.state = {
-      isShowing: false
+      isShowing: false,
+      selectedItem: 'none'
     }
   }
 
-  showModal = () => {
+  showModal = (i) => {
     this.setState({
-        isShowing: true
+        isShowing: true,
+        selectedItem: i.email
     });
+    console.log('showModal '+i.email);
   }
 
   closeModal = () => {
       this.setState({
-          isShowing: false
+          isShowing: false,
+          selectedItem: 'none'
       });
   }
-
-  onButtonClick(e) {
-    console.log('buttonclick '+this+' and e '+e);
-
-  }  
 
   render() {
     console.log('render users')
@@ -39,11 +38,11 @@ class Users extends Component {
         <div> 
           { this.state.isShowing ? <div onClick={this.closeModal} className="back-drop"></div> : null }
           <Modal
-            title="Basic Modal"
+            title="Make an IOU"
             visible={this.state.isShowing}
             onOk={this.closeModal}
             onCancel={this.closeModal}>
-                  Test of this random Modal code                  
+                  Make an IOU for: {this.state.selectedItem} 
                   <Input size="small" placeholder="small size0" />
                   <Input size="small" placeholder="small size1" />
                   <Input size="small" placeholder="small size2" />
@@ -56,7 +55,7 @@ class Users extends Component {
                 console.log(user);
                 return (
                   <tr className='tg'>
-                    <td className='tg'><Button className="open-modal-btn" onClick={this.showModal}>Register IOU</Button></td>
+                    <td className='tg'><Button className="open-modal-btn" onClick={() => this.showModal(user)}>Make IOU</Button></td>
                     <td className='tg'>{user.name}</td>
                     <td className='tg'>{user.email}</td>
                   </tr>
