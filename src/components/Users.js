@@ -10,7 +10,11 @@ class Users extends Component {
     super();
     this.state = {
       isShowing: false,
-      selectedItem: 'none'
+      selectedItem: 'none',
+      newIouAmount: '0',
+      newIouCategory: '',
+      newIouDescription: '',
+      newIouDate: ''
     }
   }
 
@@ -22,15 +26,41 @@ class Users extends Component {
     console.log('showModal '+i.email);
   }
 
-  onDateChange = () => {    
+  onNewIouChange = (e) => {
+    console.log("onNewIouChange " +e.target.name + ': ' +e.target.value);
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  onDateChange = (e) => {    
+    this.setState({
+      newIouDate: e.target.value
+    })
+    console.log("onDateChange: " +e);
+  }
+
+  resetStates = () => {
+    this.setState({
+      isShowing: false,
+      selectedItem: 'none',
+      newIouAmount: '0',
+      newIouCategory: '',
+      newIouDescription: '',
+      newIouDate: ''
+    });
   }
 
   closeModal = () => {
-      this.setState({
-          isShowing: false,
-          selectedItem: 'none'
-      });
+    this.resetStates();
   }
+
+  cancelModal = () => {
+    this.setState({
+        isShowing: false,
+        selectedItem: 'none'
+    });
+}
 
   render() {
     console.log('render users')
@@ -44,13 +74,14 @@ class Users extends Component {
             title="Make an IOU"
             visible={this.state.isShowing}
             onOk={this.closeModal}
-            onCancel={this.closeModal}>
-                  Make an IOU for: {this.state.selectedItem} 
-                  <Form.Item label="Amount"/> <Input name="amount" size="small" placeholder="0.00" />
-                  Category <Input size="small" placeholder="personal loan" />
-                  Description <Input size="small" placeholder="dinner" />
-                  Date <DatePicker  />
-
+            onCancel={this.cancelModal}>
+               <Form>
+                  <label>Make an IOU for: {this.state.selectedItem} </label><br/>
+                  <label>Amount <input onChange={this.onNewIouChange} name="newIouAmount" size="4" placeholder="0.00" /></label><br/>
+                  <label>Category <input onChange={this.onNewIouChange} size="small" width="35" name="newIouCategory" placeholder="personal loan" /></label><br/>
+                  <label>Description <input onChange={this.onNewIouChange} size="small" class="input" name="newIouDescription" placeholder="dinner" /></label><br/>
+                  <label>Date <DatePicker onChange={this.onDateChange} /></label>
+               </Form>
           </Modal>
         </div>
         <div>
