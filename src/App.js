@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux'
 import About from './components/pages/About';
 import Loans from './components/Loans';
-import Customers from './components/Customers';
 import Users from './components/Users';
 import AddCustomer from './components/AddCustomer';
+import Customers from './components/Customers';
 import AddLoan from './components/AddLoan';
 import Login from "./components/Login";
 import Signup from "./containers/Signup";
@@ -139,7 +139,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <div className="header">
+          <div className="container">
             <MenuLayout {...this.props} />
           </div>
           <div className="container">
