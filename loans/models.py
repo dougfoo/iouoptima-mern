@@ -2,14 +2,35 @@ from django.db import models
 
 # Create your models here.
 
-
-class Loan(models.Model):
-    id = models.DecimalField(decimal_places=0, max_digits=12, primary_key=True)
-    name = models.CharField(max_length=40)
-    toEmail = models.CharField(max_length=60)  # should be selected
-    date = models.DateField(auto_now_add=True)
-    amount = models.DecimalField(decimal_places=2, max_digits=12)
-    details = models.TextField()
+class User(models.Model):
+    id = models.IntegerField(primary_key=True)
+    firstName = models.CharField(max_length=40)
+    lastName = models.CharField(max_length=40)
+    email = models.CharField(max_length=60)  
+    phone = models.CharField(max_length=60)  
+    friends = models.ManyToManyField(User)
+    loans = models.ManyToManyField(Loan)
 
     def __str__(self):
-        return self.name + ' to ' + self.toEmail + ': ' + str(self.amount)
+        return str(self.id) + ',' + self.email + ': ' + str(self.loans)
+
+
+class Loan(models.Model):
+    LOAN_STATUS = (
+        ('P', 'Pending'),
+        ('A', 'Active'),
+        ('C', 'Cancelled'),
+        ('D', 'Done'),
+    )
+ 
+    id = models.IntegerField(primary_key=True)
+    payee = models.ForeignKey(User, on_delete=models.CASCADE)
+    payer = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(decimal_places=2, max_digits=12)
+    description = models.TextField()
+    status = models.CharField(max_length=1, choices=LOAN_STATUS)
+
+    def __str__(self):
+        return str(self.id) + ', ' + str(self.amount) + ': ' + str(self.payee)
+

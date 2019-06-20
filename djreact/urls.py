@@ -20,7 +20,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('customers/', include('customers.api.urls')),
+    path('users/', include('users.api.urls')),
     path('loans/', include('loans.api.urls')),
 #    re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
 ]
