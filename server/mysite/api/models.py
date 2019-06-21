@@ -10,9 +10,9 @@ class Loan(models.Model):
         ('D', 'Done'),
     )
  
-    id = models.IntegerField(primary_key=True)
-#    payee = models.ForeignKey(User, on_delete=models.CASCADE)
-#    payer = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    payee = models.ForeignKey('User', on_delete=models.CASCADE, related_name='+')
+    payor = models.ForeignKey('User', on_delete=models.CASCADE, related_name='+')
     date = models.DateField(auto_now_add=True)
     amount = models.DecimalField(decimal_places=2, max_digits=12)
     description = models.TextField()
@@ -22,15 +22,14 @@ class Loan(models.Model):
         return str(self.id) + ', ' + str(self.amount) + ': ' + str(self.payee)
 
 class User(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=40)
     lastName = models.CharField(max_length=40)
     email = models.CharField(max_length=60)  
     phone = models.CharField(max_length=60)  
-#    friends = models.ManyToManyField(User)
-    loans = models.ManyToManyField(Loan)
+    friends = models.ManyToManyField("self", blank=True)
 
     def __str__(self):
-        return str(self.id) + ',' + self.email + ': ' + str(self.loans)
+        return str(self.id) + ',' + self.email 
 
 
