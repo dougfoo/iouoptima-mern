@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ReactDom from "react-dom";
-import { stat } from "fs";
 
 export default class Login extends Component {
   constructor(props) {
@@ -58,14 +56,14 @@ class LoginBox extends Component {
   }
 
   submitLogin() {
-    if (this.state.username == '') {
+    if (this.state.username === '') {
       this.showValidationErr("username", "username is empty");
     }
-    if (this.state.password == '') {
+    if (this.state.password === '') {
       this.showValidationErr("password", "password is empty");
     } 
 
-    if (this.state.username == 'dougcha' && this.state.password == 'dougcha') {
+    if (this.state.username === 'dougcha' && this.state.password === 'dougcha') {
       this.props.callbackLogin();   // callback to container
     }
     else {
@@ -95,7 +93,7 @@ class LoginBox extends Component {
     this.setState((prevState) => {
       let newarr = []
       for (let err of prevState.errors) {
-        if (elem != err.elem) {
+        if (elem !== err.elem) {
           newarr.push(err);
         }        
       }
@@ -107,10 +105,10 @@ class LoginBox extends Component {
     let usernameErr = null, passwordErr = null;
 
     for (let err of this.state.errors) {
-      if (err.elem == "username") {
+      if (err.elem === "username") {
         usernameErr = err.msg;
       }
-      else if (err.elem == "password") {
+      else if (err.elem === "password") {
         passwordErr = err.msg;
       }
     }
@@ -150,13 +148,13 @@ class RegisterBox extends Component {
   }
 
   submitRegister() {
-    if (this.state.username == '') {
+    if (this.state.username === '') {
       this.showValidationErr("username", "username is empty");
     }
-    if (this.state.password == '') {
+    if (this.state.password === '') {
       this.showValidationErr("password", "password is empty");
     } 
-    if (this.state.email == '') {
+    if (this.state.email === '') {
       this.showValidationErr("email", "email is empty");
     } 
   }
@@ -187,7 +185,7 @@ class RegisterBox extends Component {
     this.setState((prevState) => {
       let newarr = []
       for (let err of prevState.errors) {
-        if (elem != err.elem) {
+        if (elem !== err.elem) {
           newarr.push(err);
         }        
       }
@@ -200,13 +198,13 @@ class RegisterBox extends Component {
     let usernameErr = null, passwordErr = null, emailErr = null;
 
     for (let err of this.state.errors) {
-      if (err.elem == "username") {
+      if (err.elem === "username") {
         usernameErr = err.msg;
       }
-      else if (err.elem == "email") {
+      else if (err.elem === "email") {
         emailErr = err.msg;        
       }
-      else if (err.elem == "password") {
+      else if (err.elem === "password") {
         passwordErr = err.msg;
       }
     }

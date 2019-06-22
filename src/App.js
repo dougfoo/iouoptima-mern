@@ -1,13 +1,18 @@
 import 'antd/dist/antd.css';
+import './App.css';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
+import { Layout, Menu, } from 'antd';
+
 import About from './pages/About';
-import Login from "./pages/Login";
-import Signup from "./containers/Signup";
-import MenuLayout from './containers/MenuLayout';
+import Login from './pages/Login';
+import Loans from './pages/Loans';
+import Users from './pages/Users';
+import Profile from './pages/Profile';
+
+const { Header, Footer, Content } = Layout;
 
 // import uuid from 'uuid';
-import './App.css';
 
 class App extends Component {
   state = {
@@ -61,22 +66,50 @@ class App extends Component {
         status: 'A'
       }
     ]
-
   };
 
   componentDidMount() {
-    this.props.onTryAutoSignup();
   }
   // componentDidMount() {
   //   axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
   //     .then(res => this.setState({ todos: res.data }))
   // }
 
+  
+
   render() {
     return (
-      <div classfirstName="App">
-        <MenuLayout {...this.props} />
-      </div>  
+      <BrowserRouter >
+        <div>
+          <Layout className="layout">
+            <Header>
+              <div className="logo" />
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                defaultSelectedKeys={['1']}
+                style={{ lineHeight: '64px' }} >
+                  <Menu.Item key="1"><NavLink to="/login" activeClassName="active">Login/Logout</NavLink></Menu.Item>
+                  <Menu.Item key="2"><NavLink to="/loans" activeClassName="active">Loans</NavLink></Menu.Item>
+                  <Menu.Item key="3"><NavLink to="/users" activeClassName="active">Friends</NavLink></Menu.Item>
+                  <Menu.Item key="4"><NavLink to="/profile" activeClassName="active">My Profile</NavLink></Menu.Item>
+                  <Menu.Item key="5"><NavLink to="/about" activeClassName="active">About</NavLink></Menu.Item>
+              </Menu>
+            </Header>
+            <Content style={{ padding: '0 50px' }}>
+              <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+                <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
+                <Route path="/login" component={Login} />
+                <Route path="/loans" component={Loans} />
+                <Route path="/users" component={Users} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/about" component={About} />
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>©2018 Doug Foo</Footer>
+          </Layout>
+        </div>  
+      </BrowserRouter>
     );
   }
 }
