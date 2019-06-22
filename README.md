@@ -2,9 +2,17 @@
 
 My mini project to build the ultimate IOU application
 
+ - Technology
+    - React front end with antd component library
+    - Django and REST on backend
+    - Integration to Mongo backend
+    - Login integration to Google / FB
+    - Hosted integration w/ Azure AWS and GCE
+
  - User management
-    - (including groups of users / friend list)
-    - tie to email and/or phone
+    - basic login/registration
+    - friends list management
+    - password management
 
  - IOU management
     - user has an IOU pointed to a user
@@ -14,6 +22,3 @@ My mini project to build the ultimate IOU application
 
  - Tri-party optimization / collapse
 
- - Login integration to Google / FB
-
- - Hosted integration w/ Azure AWS and GCE
