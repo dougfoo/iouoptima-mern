@@ -7,7 +7,7 @@ import Users from './components/Users';
 import AddCustomer from './components/AddCustomer';
 import Customers from './components/Customers';
 import AddLoan from './components/AddLoan';
-import Login from "./pages/Login";
+import Login from "./components/Login";
 import Signup from "./containers/Signup";
 import 'antd/dist/antd.css';
 import * as actions from './store/actions/auth';

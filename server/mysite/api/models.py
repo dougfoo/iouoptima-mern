@@ -26,6 +26,7 @@ class User(models.Model):
     firstName = models.CharField(max_length=40)
     lastName = models.CharField(max_length=40)
     email = models.CharField(max_length=60)  
+    password = models.CharField(max_length=60)
     phone = models.CharField(max_length=60)  
     friends = models.ManyToManyField("self", blank=True)
 
