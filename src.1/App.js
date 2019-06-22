@@ -5,7 +5,7 @@ import About from './components/pages/About';
 import Loans from './components/Loans';
 import Users from './components/Users';
 import AddCustomer from './components/AddCustomer';
-import Customers from './components/Customers';
+import users from './components/users';
 import AddLoan from './components/AddLoan';
 import Login from "./components/Login";
 import Signup from "./containers/Signup";
@@ -18,7 +18,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    customers: [
+    users: [
       {
         id: 1,
         name: 'doug foo',
@@ -85,9 +85,9 @@ class App extends Component {
 
     console.log('delete '+id)
     this.setState(state => {
-      let customers = this.state.customers.filter(i => i.id !== id)
+      let users = this.state.users.filter(i => i.id !== id)
       return {
-        customers,
+        users,
       }
     });
   }
@@ -102,12 +102,12 @@ class App extends Component {
     console.log('addCustomer ' + name + ' - '+ email)
     this.setState(state => {
       const nextid = 4   // temp 4 need to get next one
-      const customers = this.state.customers.concat({ id: nextid, name: name, email: email })
+      const users = this.state.users.concat({ id: nextid, name: name, email: email })
       return {
-        customers,    
+        users,    
       }
     });
-    console.log(this.state.customers)
+    console.log(this.state.users)
   }
 
   // Add Loan
@@ -145,10 +145,10 @@ class App extends Component {
           <div className="container">
             <Route path="/login/" component={Login} />
             <Route path="/users/" render={props => (
-                <Users {...props} users={this.state.customers} />
+                <Users {...props} users={this.state.users} />
             )} />
             <Route path="/users2/" render={props => (
-                <Customers {...props} addCustomer={this.addCustomer} customers={this.state.customers} delCustomer={this.delCustomer} />
+                <users {...props} addCustomer={this.addCustomer} users={this.state.users} delCustomer={this.delCustomer} />
             )} />
             <Route  path="/loans/" render={props => (
               <React.Fragment>

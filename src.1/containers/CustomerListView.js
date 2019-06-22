@@ -6,13 +6,13 @@ import CustomForm from "../components/Form";
 
 class CustomerList extends React.Component {
   state = {
-    customers: []
+    users: []
   };
 
-  fetchCustomers = () => {
+  fetchusers = () => {
 //    axios.get("http://127.0.0.1:8000/api/").then(res => {
     this.setState({
-      customers: {
+      users: {
                 
       }
     });
@@ -20,20 +20,20 @@ class CustomerList extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchCustomers();
+    this.fetchusers();
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.token) {
-      this.fetchCustomerss();      
+      this.fetchuserss();      
     }
   }
 
   render() {
     return (
       <div>
-        <Customers data={this.state.customers} /> <br />
-        <h2>Customers</h2>
+        <users data={this.state.users} /> <br />
+        <h2>users</h2>
         <CustomForm requestType="post" 
             customerID={null} btnText="Create" />
       </div>

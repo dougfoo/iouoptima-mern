@@ -3,10 +3,10 @@ import CustomerItem from './CustomerItem';
 import AddCustomer from './AddCustomer';
 import PropTypes from 'prop-types';
 
-class Customers extends Component {
+class users extends Component {
   render() {
     console.log('cust state')
-    console.log(this.props.customers)
+    console.log(this.props.users)
 
     return (
       <div>
@@ -14,7 +14,7 @@ class Customers extends Component {
           <AddCustomer addCustomer={this.props.addCustomer} />
         </div>
         <div>
-          {this.props.customers.map((customer) => (
+          {this.props.users.map((customer) => (
             <CustomerItem key={customer.id} customer={customer} delCustomer={this.props.delCustomer} />
           ))}
         </div>
@@ -24,9 +24,9 @@ class Customers extends Component {
 }
 
 // PropTypes
-Customers.propTypes = {
-  customers: PropTypes.array.isRequired,
+users.propTypes = {
+  users: PropTypes.array.isRequired,
   delCustomer: PropTypes.func.isRequired,
 }
 
-export default Customers;
+export default users;
