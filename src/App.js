@@ -53,7 +53,7 @@ class App extends Component {
         payor: 2,
         date: '2019-05-05',
         amount: '333.50',
-        description: 'loan 1',
+        description: 'loan 1 long description blah blah blah',
         status: 'P'
       },
       {
@@ -94,8 +94,8 @@ class App extends Component {
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 <Route path="/login" component={Login} />
-                <Route path="/loans" component={Loans} />
-                <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />}  />
+                <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
+                <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/about" component={About} />
               </div>
