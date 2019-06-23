@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { Redirect } from 'react-router-dom'
 
 
 export default class Login extends Component {
@@ -26,6 +27,14 @@ export default class Login extends Component {
   render() {
     const MyLoginForm = Form.create()(NormalLoginForm);
 
+    if(this.state.isLoggedIn){
+      console.log('redirecting..');
+      setTimeout(function() { 
+        return <Redirect to='/loans'/>;
+      }.bind(this), 5000);
+      console.log('redirecting done ? ..');
+    }
+    
     return (
       <div className="root-container">
         <div className="box-container">
@@ -43,6 +52,7 @@ export default class Login extends Component {
         </div>
         <div className="controller">
           Logged in:  { this.state.isLoggedIn ? "Y" : "N" }
+          { this.state.isLoggedIn ? <Redirect to='/loans' /> : "" }
         </div>
       </div>
     );
