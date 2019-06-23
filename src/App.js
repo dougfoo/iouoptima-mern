@@ -70,12 +70,6 @@ class App extends Component {
 
   componentDidMount() {
   }
-  // componentDidMount() {
-  //   axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
-  //     .then(res => this.setState({ todos: res.data }))
-  // }
-
-  
 
   render() {
     return (
@@ -101,7 +95,7 @@ class App extends Component {
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 <Route path="/login" component={Login} />
                 <Route path="/loans" component={Loans} />
-                <Route path="/users" component={Users} />
+                <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />}  />
                 <Route path="/profile" component={Profile} />
                 <Route path="/about" component={About} />
               </div>
