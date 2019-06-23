@@ -34,7 +34,7 @@ export default class Login extends Component {
       }.bind(this), 5000);
       console.log('redirecting done ? ..');
     }
-    
+
     return (
       <div className="root-container">
         <div className="box-container">
@@ -59,19 +59,24 @@ export default class Login extends Component {
   }
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 class NormalLoginForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       console.log(this.props)
       console.log(err)
       console.log(values)
-      if (!err) {
+      if (!err) {        
         message.loading("loading..",2.5).then(() => {
           message.success("loading done",1.0);
         });
         console.log('Logged in - received values of form: ', values);
         if (values.username === 'dougcha' && values.password == 'dougcha') {
+          await sleep(2000);
           this.props.setLoginCallback();
           console.log('sucess dougfoo login');
           // redirect after
