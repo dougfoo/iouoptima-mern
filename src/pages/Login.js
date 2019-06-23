@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 
 export default class Login extends Component {
@@ -39,9 +39,9 @@ export default class Login extends Component {
         <div className="box-container">
           {/* { this.state.isLoginOpen && <LoginBox callbackLogin={this.setLogin} /> }
           { this.state.isRegisterOpen && <RegisterBox/> } */}
-          <MyLoginForm/>
+          <MyLoginForm setLoginCallback={this.setLogin}/>
         </div>
-        <div className="header">
+        <div className="controller">
           Logged in:  { this.state.isLoggedIn ? "Y" : "N" }
         </div>
       </div>
@@ -49,6 +49,99 @@ export default class Login extends Component {
   }
 }
 
+class NormalLoginForm extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log(this.props)
+      console.log(err)
+      console.log(values)
+      if (!err) {
+        message.loading("loading..",2.5).then(() => {
+          message.success("loading done",1.0);
+        });
+        console.log('Logged in - received values of form: ', values);
+        if (values.username === 'dougcha' && values.password == 'dougcha') {
+          this.props.setLoginCallback();
+          console.log('sucess dougfoo login');
+          // redirect after
+        }
+        else {
+          // invalid login
+          console.log('fail dougfoo login redir ?');
+          this.props.form.setFields({
+            username: {
+              value: values.username,
+              errors: [new Error('incorrect login and/or password')],
+            },
+            password: {
+              value: values.password,
+              errors: [new Error('incorrect login and/or password')],
+            },
+          });        
+        }
+      }
+      else {
+        console.log('validation erors - props.form.validateFields');
+      }
+    });
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+
+    const customValidatePassword = (rule, value, callback) => {
+      if (!value && value === "") {
+        callback("Password blank");
+      } else {
+        callback();
+      }
+    };
+  
+    return (
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <Form.Item>
+          {getFieldDecorator('username', {
+            rules: [{ required: true, message: 'Please input your username!' }],
+          })(
+            <Input
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Username"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your Password!' },
+            { validator: customValidatePassword }
+          ],
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Password"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('remember', {
+            valuePropName: 'checked',
+            initialValue: true,
+          })(<Checkbox>Remember me</Checkbox>)}
+          <a className="login-form-forgot" href="">
+            Forgot password
+          </a>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            Log in
+          </Button>
+          Or <a href="">register now!</a>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
+
+/*
 class LoginBox extends Component {
   constructor(props) {
     super(props);
@@ -246,56 +339,4 @@ class RegisterBox extends Component {
     );
   }
 }
-
-class NormalLoginForm extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
-
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a href="">register now!</a>
-        </Form.Item>
-      </Form>
-    );
-  }
-}
+*/
