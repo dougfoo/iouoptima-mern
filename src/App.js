@@ -74,8 +74,9 @@ class App extends Component {
   };
 
   setLogin = (username, password) => {
-    if (username == password) {   // change to a server call/test
+    if (username === password) {   // change to a server call/test
       this.setState({ isLoggedIn: true });
+      console.log('logged in true for '+username);
     }
   }
 

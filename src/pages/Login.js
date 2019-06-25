@@ -17,34 +17,24 @@ export default class Login extends Component {
       console.log(err);
       console.log(values);
       if (!err) {        
-        message.loading("validating..",2.5).then(() => {
-          message.success("logged in!",1.0);
-        });
         console.log('Logged in - received values of form: ', values);
-        if (values.username === 'dougcha' && values.password === 'dougcha') {
-          await sleep(2000);
-          this.props.loginCallback(values.username, values.password);
-          console.log('sucess dougfoo login');
+        this.props.loginCallback(values.username, values.password);
+        
+        if (this.props.isLoggedIn) {
+          console.log('sucess dougfoo login ');
+          message.loading("validating..",2.5).then(() => {
+            message.success("logged in!",1.0);
+          });
         }
         else {
           // invalid login
           console.log('fail dougfoo login redir ?');
-          message.error('failed to login',1.0);
-
-          this.props.form.setFields({
-            username: {
-              value: values.username,
-              errors: [new Error('incorrect login and/or password')],
-            },
-            password: {
-              value: values.password,
-              errors: [new Error('incorrect login and/or password')],
-            },
-          });        
+          message.error('incorrect login and/or password(1)',1.0); 
         }
       }
       else {
         console.log('validation erors - props.form.validateFields');
+        message.error('failed to login validateFieldsErr',1.0);
       }
     });
   };
@@ -59,14 +49,6 @@ export default class Login extends Component {
     }
 
     const { getFieldDecorator } = this.props.form;
-
-    const customValidatePassword = (rule, value, callback) => {
-      if (!value && value === "") {
-        callback("Password blank");
-      } else {
-        callback();
-      }
-    };
   
     return (       
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -83,7 +65,6 @@ export default class Login extends Component {
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' },
-            { validator: customValidatePassword }
           ],
           })(
             <Input
