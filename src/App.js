@@ -2,7 +2,7 @@ import 'antd/dist/antd.css';
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
-import { Layout, Menu, } from 'antd';
+import { Form, Layout, Menu, } from 'antd';
 
 import About from './pages/About';
 import Login from './pages/Login';
@@ -15,7 +15,12 @@ const { Header, Footer, Content } = Layout;
 // import uuid from 'uuid';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
+    isLoggedIn: false,
     users: [
       {
         id: 1,
@@ -68,10 +73,18 @@ class App extends Component {
     ]
   };
 
+  setLogin = (username, password) => {
+    if (username == password) {   // change to a server call/test
+      this.setState({ isLoggedIn: true });
+    }
+  }
+
   componentDidMount() {
   }
 
   render() {
+    const LoginForm = Form.create()(Login);
+
     return (
       <BrowserRouter >
         <div>
@@ -93,7 +106,7 @@ class App extends Component {
             <Content style={{ padding: '0 50px' }}>
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
-                <Route path="/login" component={Login} />
+                <Route path="/login" render={(props) => <LoginForm {...props} isLoggedIn={this.state.isLoggedIn} loginCallback={this.setLogin} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
                 <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
                 <Route path="/profile" component={Profile} />
