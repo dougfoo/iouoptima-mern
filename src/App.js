@@ -14,13 +14,12 @@ const { Header, Footer, Content } = Layout;
 
 // import uuid from 'uuid';
 
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
-    isLoggedIn: false,
+    isAuthenticated: false,
+    activeUsername: 'nobody',
     users: [
       {
         id: 1,
@@ -73,10 +72,12 @@ class App extends Component {
     ]
   };
 
-  setLogin = (username, password) => {
-    if (username === password) {   // change to a server call/test
-      this.setState({ isLoggedIn: true });
-      console.log('logged in true for '+username);
+  setLogin = (username) => {
+    if (username) {
+      this.setState({isAuthenticated: true, activeUsername: username});
+    }
+    else {
+      this.setState({isAuthenticated: false, activeUsername: 'nobody'});
     }
   }
 
@@ -107,14 +108,19 @@ class App extends Component {
             <Content style={{ padding: '0 50px' }}>
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
-                <Route path="/login" render={(props) => <LoginForm {...props} isLoggedIn={this.state.isLoggedIn} loginCallback={this.setLogin} /> } />
+                <Route path="/login" render={(props) => <LoginForm {...props} activeUser={this.state.activeUsername} loginCallback={this.setLogin} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
                 <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/about" component={About} />
               </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>©2018 Doug Foo</Footer>
+            <Content style={{ textAlign: 'center' }}>
+              <div style={{  padding: 6, minHeight: 30 }}>
+                  Logged In: {this.state.activeUsername}
+              </div>
+            </Content>
+            <Footer style={{ background: '#ddd', textAlign: 'center' }}>©2018 Doug Foo</Footer>
           </Layout>
         </div>  
       </BrowserRouter>

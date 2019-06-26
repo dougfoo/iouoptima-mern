@@ -6,50 +6,62 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(username, password) {
+    if (username === password) {
+      this.isAuthenticated= true;
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+  signout(cb) {
+    this.isAuthenticated= false;
+    setTimeout(cb, 100);
+  }
+}
+
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
+  handleLogout = e => {
+    e.preventDefault();
+    message.loading("logging out..",2.5);
+    fakeAuth.signout();
+    this.props.loginCallback();
+    this.setState({redirectBack: false});
   }
 
   handleSubmit = e => {
     e.preventDefault();
+    message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
-      console.log(err);
-      console.log(values);
       if (!err) {        
-        console.log('Logged in - received values of form: ', values);
-        this.props.loginCallback(values.username, values.password);
-        
-        if (this.props.isLoggedIn) {
-          console.log('sucess dougfoo login ');
-          message.loading("validating..",2.5).then(() => {
-            message.success("logged in!",1.0);
-          });
+        if (fakeAuth.authenticate(values.username, values.password)) {
+          this.props.loginCallback(values.username);  //sets state and refreshes
+          this.setState({redirectBack: true});
         }
         else {
-          // invalid login
-          console.log('fail dougfoo login redir ?');
-          message.error('incorrect login and/or password(1)',1.0); 
+          message.error("username/password invalid..",2.5);
         }
-      }
-      else {
-        console.log('validation erors - props.form.validateFields');
-        message.error('failed to login validateFieldsErr',1.0);
       }
     });
   };
 
   render() {
-    if(this.props.isLoggedIn){
-      console.log('redirecting..');
-      setTimeout(function() { 
-        return <Redirect to='/loans'/>;   // this doesn't work....
-      }.bind(this), 5000);
-      console.log('redirecting done ? ..');
-    }
-
     const { getFieldDecorator } = this.props.form;
   
+    if (fakeAuth.isAuthenticated === true) {
+      return (
+        <div>
+          <Button onClick={this.handleLogout} >Sign Out</Button>
+          <p>
+            Logged in:  { this.props.activeUser }
+          </p>
+        </div>
+      )
+    }
+
     return (       
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
@@ -88,7 +100,7 @@ export default class Login extends Component {
           Or <a href="">register now!</a>
         </Form.Item>
         <div>
-          Logged in:  { this.props.isLoggedIn ? "Y" : "N" }
+          Logged in:  { this.props.activeUser }
         </div>
       </Form>
     );

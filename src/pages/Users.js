@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Divider, Tag } from 'antd';
+import { Table, Divider } from 'antd';
 
 class Users extends Component {
   constructor(props) {
