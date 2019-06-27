@@ -6,6 +6,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// replace this w/ a backend call and return success/error
 const fakeAuth = {
   isAuthenticated: false,
   authenticate(username, password) {
