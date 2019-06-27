@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -97,7 +97,7 @@ export default class Login extends Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <NavLink to="/register">register now!</NavLink>
         </Form.Item>
         <div>
           Logged in:  { this.props.activeUser }

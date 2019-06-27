@@ -6,6 +6,7 @@ import { Form, Layout, Menu, } from 'antd';
 
 import About from './pages/About';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Loans from './pages/Loans';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
@@ -16,7 +17,6 @@ const { Header, Footer, Content } = Layout;
 
 
 class App extends Component {
-
   state = {
     isAuthenticated: false,
     activeUsername: 'nobody',
@@ -72,6 +72,10 @@ class App extends Component {
     ]
   };
 
+  setRegister = (username) => {
+    console.log('registering '+username);
+  }
+
   setLogin = (username) => {
     if (username) {
       this.setState({isAuthenticated: true, activeUsername: username});
@@ -85,7 +89,8 @@ class App extends Component {
   }
 
   render() {
-    const LoginForm = Form.create()(Login);
+    const LoginForm = Form.create()(Login);   // can i put this in the Login.js
+    const RegistrationForm = Form.create()(Register);  // can i put this in Register.js
 
     return (
       <BrowserRouter >
@@ -109,6 +114,7 @@ class App extends Component {
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 <Route path="/login" render={(props) => <LoginForm {...props} activeUser={this.state.activeUsername} loginCallback={this.setLogin} /> } />
+                <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
                 <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
                 <Route path="/profile" component={Profile} />
