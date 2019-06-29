@@ -20,6 +20,15 @@ class App extends Component {
   state = {
     isAuthenticated: false,
     activeUsername: 'nobody',
+    activeUser: {
+      id: 1,
+      firstName: 'doug',
+      lastName: 'foo',
+      phone: '650-629-9731',
+      email: 'doug.foo@gmail.com',
+      friends: [],
+      password: 'abcd'
+    },
     users: [
       {
         id: 1,
@@ -78,10 +87,12 @@ class App extends Component {
 
   setLogin = (username) => {
     if (username) {
-      this.setState({isAuthenticated: true, activeUsername: username});
+      this.setState({isAuthenticated: true, activeUsername: username
+      // set activeUser: ... ?
+      });
     }
     else {
-      this.setState({isAuthenticated: false, activeUsername: 'nobody'});
+      this.setState({isAuthenticated: false, activeUsername: 'nobody', activeUser: ''});
     }
   }
 
@@ -117,7 +128,7 @@ class App extends Component {
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
                 <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
-                <Route path="/profile" component={Profile} />
+                <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/about" component={About} />
               </div>
             </Content>
