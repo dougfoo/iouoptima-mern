@@ -3,6 +3,7 @@ import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 import { Form, Layout, Menu, } from 'antd';
+import axios from 'axios';
 
 import About from './pages/About';
 import Login from './pages/Login';
@@ -14,7 +15,24 @@ import Profile from './pages/Profile';
 const { Header, Footer, Content } = Layout;
 
 // import uuid from 'uuid';
+const API_URL = 'http://localhost:8000';
 
+const BackendAPI = {
+  loadUsers() {
+    try {
+      axios.get(API_URL + '/users/').then(response => response.data)
+      .then((data) => {
+        this.setState({ users: data })
+        console.log(this.state.users)
+       })
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  loadLoans() {
+    return false;
+  },
+}
 
 class App extends Component {
   state = {
@@ -81,6 +99,13 @@ class App extends Component {
     ]
   };
 
+  componentDidMount() {
+    console.log('consolemount');
+    BackendAPI.loadUsers();
+    BackendAPI.loadLoans();
+  }
+
+
   setRegister = (username) => {
     console.log('registering '+username);
   }
@@ -94,9 +119,6 @@ class App extends Component {
     else {
       this.setState({isAuthenticated: false, activeUsername: 'nobody', activeUser: ''});
     }
-  }
-
-  componentDidMount() {
   }
 
   render() {

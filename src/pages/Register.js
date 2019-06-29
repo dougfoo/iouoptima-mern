@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 const { Option } = Select;
 
 // replace this w/ a backend call and return success/error
-const fakeReg = {
+const FakeRegAPI = {
   isRegistered: false,
   register(username, password, firstName, lastName, confirm, phone) {
     console.log('register: '+username+','+password+','+confirm+','+phone);
@@ -32,7 +32,7 @@ export default class Register extends React.Component {
         console.log('Received values of form: ', values);
 
         // register obj
-        if (fakeReg.register(values.email, values.password, values.firstName, values.lastName, values.confirm, values.phone)) {
+        if (FakeRegAPI.register(values.email, values.password, values.firstName, values.lastName, values.confirm, values.phone)) {
           this.setState({ registered: true });  // should check if really registered w/o errors first
           this.props.registerCallback(values.email);
         }
@@ -63,7 +63,7 @@ export default class Register extends React.Component {
   };
   
   render() {
-    if (fakeReg.isRegistered === true) {
+    if (FakeRegAPI.isRegistered === true) {
       return (
         <div>
           <p>

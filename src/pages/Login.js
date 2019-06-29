@@ -7,7 +7,7 @@ function sleep(ms) {
 }
 
 // replace this w/ a backend call and return success/error
-const fakeAuth = {
+const FakeAuthAPI = {
   isAuthenticated: false,
   authenticate(username, password) {
     if (username === password) {
@@ -28,7 +28,7 @@ export default class Login extends Component {
   handleLogout = e => {
     e.preventDefault();
     message.loading("logging out..",2.5);
-    fakeAuth.signout();
+    FakeAuthAPI.signout();
     this.props.loginCallback();
     this.setState({redirectBack: false});
   }
@@ -38,7 +38,7 @@ export default class Login extends Component {
     message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
       if (!err) {        
-        if (fakeAuth.authenticate(values.username, values.password)) {
+        if (FakeAuthAPI.authenticate(values.username, values.password)) {
           this.props.loginCallback(values.username);  //sets state and refreshes
           this.setState({redirectBack: true});
         }
@@ -52,7 +52,7 @@ export default class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
   
-    if (fakeAuth.isAuthenticated === true) {
+    if (FakeAuthAPI.isAuthenticated === true) {
       return (
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
