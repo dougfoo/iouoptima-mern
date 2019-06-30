@@ -36,7 +36,7 @@ class Loans extends Component {
 
   state = { 
     visible: false,
-    loans: [
+    loans: [ // temp stat -- tb replaced by axios call
       {
         id: 1,
         payee: 1,
@@ -58,7 +58,7 @@ class Loans extends Component {
     ]
   };
 
-  handleMakeIOU = e => {
+  addNewLoanModal = e => {
     console.log("make IOU");
     this.setState({
       visible: true,
@@ -69,8 +69,11 @@ class Loans extends Component {
     console.log(e);
     this.setState({
       visible: false,
-      
     });
+    this.setState(previousState => ({
+      loans: [...previousState.loans, {id:3,payee:3,payor:4,date:'2019-06-30',amount:200.0,description:'loan new',status:'P'}]
+    }));
+    console.log('setted the new state array)');
   };
 
   handleCancel = e => {
@@ -125,7 +128,7 @@ class Loans extends Component {
     return (
       <React.Fragment>
         <h1>Loans</h1>        
-        <Button onClick={this.handleMakeIOU} >Make New IOU</Button>
+        <Button onClick={this.addNewLoanModal} >Make New IOU</Button>
         <Modal
           title="Basic Modal"
           visible={this.state.visible}
