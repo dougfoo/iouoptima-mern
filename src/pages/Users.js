@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Divider } from 'antd';
+import { Button, Table, Divider } from 'antd';
 
 class Users extends Component {
   constructor(props) {
@@ -7,6 +7,10 @@ class Users extends Component {
     this.state = {
       isLoginOpen: true, isRegisterOpen: false, s: false
     };
+  }
+  
+  handleAddFriend = e => {
+    console.log('add friend click');
   }
 
   render() {
@@ -50,6 +54,7 @@ class Users extends Component {
     return (
       <React.Fragment>
         <h1>Users</h1>
+        <Button onClick={this.handleAddFriend} >Add Friend</Button>
         <Table columns={columns} dataSource={data} />
       </React.Fragment>
     )
