@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Select, DatePicker, Input, Modal, Button, Table } from 'antd';
+import axios from 'axios';
+import * as MyConsts from '../configs';
 
 const { Option } = Select;
 /* select options*/
@@ -10,13 +12,50 @@ function onSearch(val) {
   console.log('search:', val);
 }
 
+const BackendAPI = {  
+  loadLoans() {
+    try {
+      axios.get(MyConsts.API_URL + '/loans/').then(response => response.data)
+      .then((data) => {
+        this.setState({ loans: data })
+        console.log(this.state.loans)
+       })
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  addLoan(e) {
+    console.log(e)
+  }
+}
+
 class Loans extends Component {
   constructor(props) {
     super(props);
   }
 
   state = { 
-    visible: false 
+    visible: false,
+    loans: [
+      {
+        id: 1,
+        payee: 1,
+        payor: 2,
+        date: '2019-05-05',
+        amount: '333.50',
+        description: 'loan 1 long description blah blah blah',
+        status: 'P'
+      },
+      {
+        id: 2,
+        payee: 2,
+        payor: 3,
+        date: '2019-06-05',
+        amount: '100',
+        description: 'loan 2',
+        status: 'A'
+      }
+    ]
   };
 
   handleMakeIOU = e => {
@@ -30,6 +69,7 @@ class Loans extends Component {
     console.log(e);
     this.setState({
       visible: false,
+      
     });
   };
 
@@ -43,7 +83,7 @@ class Loans extends Component {
 
   render() {
     console.log(this.props);
-    const data = this.props.loans;
+    const data = this.state.loans;
     const columns = [
       {
         title: 'Payee',

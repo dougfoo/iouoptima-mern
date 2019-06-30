@@ -1,5 +1,6 @@
 import 'antd/dist/antd.css';
 import './App.css';
+import * as MyConsts from './configs';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 import { Form, Layout, Menu, } from 'antd';
@@ -14,13 +15,10 @@ import Profile from './pages/Profile';
 
 const { Header, Footer, Content } = Layout;
 
-// import uuid from 'uuid';
-const API_URL = 'http://localhost:8000';
-
 const BackendAPI = {  
   loadUsers() {
     try {
-      axios.get(API_URL + '/users/').then(response => response.data)
+      axios.get(MyConsts.API_URL + '/users/').then(response => response.data)
       .then((data) => {
         this.setState({ users: data })
         console.log(this.state.users)
@@ -29,12 +27,6 @@ const BackendAPI = {
       console.error(error);
     }
   },
-  loadLoans() {
-    return false;
-  },
-  addLoan(e) {
-    console.log(e)
-  }
 }
 
 class App extends Component {
@@ -80,32 +72,11 @@ class App extends Component {
         password: 'ab12'
       }
     ],
-    loans: [
-      {
-        id: 1,
-        payee: 1,
-        payor: 2,
-        date: '2019-05-05',
-        amount: '333.50',
-        description: 'loan 1 long description blah blah blah',
-        status: 'P'
-      },
-      {
-        id: 2,
-        payee: 2,
-        payor: 3,
-        date: '2019-06-05',
-        amount: '100',
-        description: 'loan 2',
-        status: 'A'
-      }
-    ]
   };
 
   componentDidMount() {
     console.log('consolemount');
     BackendAPI.loadUsers();
-    BackendAPI.loadLoans();
   }
 
 
@@ -151,7 +122,7 @@ class App extends Component {
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 <Route path="/login" render={(props) => <LoginForm {...props} activeUser={this.state.activeUsername} loginCallback={this.setLogin} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
-                <Route path="/loans" render={(props) => <Loans {...props} loans={this.state.loans} />} />
+                <Route path="/loans" render={(props) => <Loans {...props} />} />
                 <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/about" component={About} />
