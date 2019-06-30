@@ -17,7 +17,7 @@ const { Header, Footer, Content } = Layout;
 // import uuid from 'uuid';
 const API_URL = 'http://localhost:8000';
 
-const BackendAPI = {
+const BackendAPI = {  
   loadUsers() {
     try {
       axios.get(API_URL + '/users/').then(response => response.data)
@@ -32,6 +32,9 @@ const BackendAPI = {
   loadLoans() {
     return false;
   },
+  addLoan(e) {
+    console.log(e)
+  }
 }
 
 class App extends Component {
