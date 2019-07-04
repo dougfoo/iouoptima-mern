@@ -78,6 +78,4 @@ class Users extends Component {
   }
 }
 
-//ReactDOM.render(<Table columns={columns} dataSource={data} />, mountNode);
-
 export default Users;

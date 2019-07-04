@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Descriptions } from 'antd';  // upgrade antd 3.20
 
 class Profile extends Component {
   render() {
@@ -8,15 +9,18 @@ class Profile extends Component {
     return (
       <React.Fragment>
         <h1>Profile</h1>
-        <p>This is the IOU Optima app v1.0.1. (c) Doug Foo Enterprises (DFE)</p>
-        {JSON.stringify(this.props.activeUser)}
-        {Object.entries(this.props.activeUser).map(([k,v]) => (
-          <li>{k}:-> {v}</li>
-        ))}
+
+        <Descriptions title="User Info" layout="vertical">
+          <Descriptions.Item label="id">{this.props.activeUser["id"]}</Descriptions.Item>
+          <Descriptions.Item label="email">{this.props.activeUser["email"]}</Descriptions.Item>
+          <Descriptions.Item label="First">{this.props.activeUser["firstName"]}</Descriptions.Item>
+          <Descriptions.Item label="Last">{this.props.activeUser["lastName"]}</Descriptions.Item>
+          <Descriptions.Item label="phone">{this.props.activeUser["phone"]}</Descriptions.Item>
+          <Descriptions.Item label="friends">{this.props.activeUser["friends"]}</Descriptions.Item>
+        </Descriptions> 
       </React.Fragment>
      )
   }
 }
-
 
 export default Profile;
