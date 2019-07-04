@@ -19,27 +19,21 @@ class Loans extends Component {
 
   state = { 
     visible: false,
-    loans: [ // temp stat -- tb replaced by axios call
-      {
-        id: 1,
-        payee: 1,
-        payor: 2,
-        date: '2019-05-05',
-        amount: '333.50',
-        description: 'loan 1 long description blah blah blah',
-        status: 'P'
-      },
-      {
-        id: 2,
-        payee: 2,
-        payor: 3,
-        date: '2019-06-05',
-        amount: '100',
-        description: 'loan 2',
-        status: 'A'
-      }
-    ]
+    loans: []
   };
+
+  componentDidMount() {
+    console.log('consolemount');
+    try {
+        axios.get(MyConsts.API_URL + '/loans/').then(response => response.data)
+            .then((data) => {
+                console.log(data);
+                this.setState({ loans: data });
+            })
+    } catch (error) {
+    console.error(error);
+    }
+  }
 
   addNewLoanModal = e => {
     console.log("make IOU");

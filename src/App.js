@@ -1,6 +1,5 @@
 import 'antd/dist/antd.css';
 import './App.css';
-import * as MyConsts from './configs';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 import { Form, Layout, Menu, } from 'antd';

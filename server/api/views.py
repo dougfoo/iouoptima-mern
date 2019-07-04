@@ -10,6 +10,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
 class LoanViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+#    permission_classes = (IsAuthenticated,)
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
