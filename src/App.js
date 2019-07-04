@@ -4,7 +4,6 @@ import * as MyConsts from './configs';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 import { Form, Layout, Menu, } from 'antd';
-import axios from 'axios';
 
 import About from './pages/About';
 import Login from './pages/Login';
@@ -14,20 +13,6 @@ import Users from './pages/Users';
 import Profile from './pages/Profile';
 
 const { Header, Footer, Content } = Layout;
-
-const BackendAPI = {  
-  loadUsers() {
-    try {
-      axios.get(MyConsts.API_URL + '/users/').then(response => response.data)
-      .then((data) => {
-        this.setState({ users: data })
-        console.log(this.state.users)
-       })
-    } catch (error) {
-      console.error(error);
-    }
-  },
-}
 
 class App extends Component {
   state = {
@@ -42,43 +27,11 @@ class App extends Component {
       friends: [],
       password: 'abcd'
     },
-    users: [
-      {
-        id: 1,
-        firstName: 'doug',
-        lastName: 'foo',
-        phone: '650-629-9731',
-        email: 'doug.foo@gmail.com',
-        friends: [],
-        password: 'abcd'
-      },
-      {
-        id: 2,
-        firstName: 'foxy',
-        lastName: 'foo',
-        phone: '519-629-9731',
-        email: 'foxy.foo@gmail.com',
-        friends: [],
-        password: '1234'
-
-      },
-      {
-        id: 3,
-        firstName: 'rob',
-        lastName: 'weber',
-        phone: '81-800-6329-9731',
-        email: 'rober@gmail.com',
-        friends: [],
-        password: 'ab12'
-      }
-    ],
   };
 
   componentDidMount() {
     console.log('consolemount');
-    BackendAPI.loadUsers();
   }
-
 
   setRegister = (username) => {
     console.log('registering '+username);
@@ -123,7 +76,7 @@ class App extends Component {
                 <Route path="/login" render={(props) => <LoginForm {...props} activeUser={this.state.activeUsername} loginCallback={this.setLogin} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} />} />
-                <Route path="/users" render={(props) => <Users {...props} users={this.state.users} />} />
+                <Route path="/users" render={(props) => <Users {...props} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/about" component={About} />
               </div>

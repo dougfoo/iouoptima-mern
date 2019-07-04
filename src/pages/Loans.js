@@ -12,23 +12,6 @@ function onSearch(val) {
   console.log('search:', val);
 }
 
-const BackendAPI = {  
-  loadLoans() {
-    try {
-      axios.get(MyConsts.API_URL + '/loans/').then(response => response.data)
-      .then((data) => {
-        this.setState({ loans: data })
-        console.log(this.state.loans)
-       })
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  addLoan(e) {
-    console.log(e)
-  }
-}
-
 class Loans extends Component {
   constructor(props) {
     super(props);
