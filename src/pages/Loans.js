@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Select, DatePicker, Input, Modal, Button, Table } from 'antd';
+import { Form, InputNumber, Select, DatePicker, Input, Modal, Button, Table } from 'antd';
 import axios from 'axios';
 import * as MyConsts from '../configs';
 
 const { Option } = Select;
-/* select options*/
+
+/* select options -- can i make this a react native function ?? */
 function onChange(value) {
   console.log(`selected ${value}`);
 }
@@ -19,8 +20,13 @@ class Loans extends Component {
 
   state = { 
     visible: false,
-    loans: []
-  };
+    loans: [],
+    friends: [],
+    add_payee: '',
+    add_date: ''
+    // auto add_description
+    // auto add_amount
+  };  // move these add_ to an obj sometime later
 
   componentDidMount() {
     console.log('consolemount');
@@ -29,6 +35,12 @@ class Loans extends Component {
             .then((data) => {
                 console.log(data);
                 this.setState({ loans: data });
+            })
+
+        axios.get(MyConsts.API_URL + '/users/').then(response => response.data)  // change to /friends later
+            .then((data) => {
+                console.log(data);
+                this.setState({ friends: data });
             })
     } catch (error) {
     console.error(error);
@@ -43,14 +55,32 @@ class Loans extends Component {
   };
 
   handleOk = e => {
+    console.log('handleOk');
     console.log(e);
     this.setState({
       visible: false,
     });
+    
+    // need to post this to server -- 
     this.setState(previousState => ({
       loans: [...previousState.loans, {id:3,payee:3,payor:4,date:'2019-06-30',amount:200.0,description:'loan new',status:'P'}]
     }));
     console.log('setted the new state array)');
+  };
+
+  handleChange = e => {
+    const { name,value } = e.target;
+    console.log(name+'->'+value);
+    this.setState({
+      [name]: value   // adds new state dynamically for now
+    })
+  }
+
+  // kind of annoying no 'name' property so have to split a new function
+  handleAmountChange = e => {
+    this.setState({
+      add_amount: e,
+    });
   };
 
   handleCancel = e => {
@@ -60,6 +90,19 @@ class Loans extends Component {
     });
   };
 
+  onSelectDate = e => {
+    console.log('onselectDate: '+e);
+    this.setState({
+      'add_date': e,
+    });
+  };
+
+  onSelectPayee = e => {
+    console.log('onselectPayee: '+e);
+    this.setState({
+      'add_payee': e,
+    });
+  };
 
   render() {
     console.log(this.props);
@@ -67,14 +110,14 @@ class Loans extends Component {
     const columns = [
       {
         title: 'Payee',
-        dataIndex: 'payee',
-        key: 'payee',
+        dataIndex: 'payee_email',
+        key: 'payee_email',
         render: text => <a href="javascript:;">{text}</a>,
       },
       {
         title: 'Payor',
-        dataIndex: 'payor',
-        key: 'payor',
+        dataIndex: 'payor_email',
+        key: 'payor_email',
       },
       {
         title: 'Date',
@@ -102,6 +145,8 @@ class Loans extends Component {
       },
     ];
 
+    const friendList = this.state.friends;
+
     return (
       <React.Fragment>
         <h1>Loans</h1>        
@@ -122,18 +167,20 @@ class Loans extends Component {
             optionFilterProp="children"
             onChange={onChange}
             onSearch={onSearch}
+            onSelect={this.onSelectPayee}
             filterOption={(input, option) =>
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="tom">Tom</Option>
-          </Select>,
-          <Input placeholder="Enter Amount"/>
-          <DatePicker format="MM/DD/YYYY" showToday={true}/>
-          <Input placeholder="Enter Description"/>
-          <p>Some contents...</p>
+            {friendList.map(({id, email}) => (
+                <Option name="selopt" value={id} >{email}</Option>
+            ))}
+          </Select>
+          <p></p>
+          Loan Amount: <InputNumber placeholder="Enter Amount" onChange={this.handleAmountChange}/>
+          Date: <DatePicker format="MM/DD/YYYY" name="add_date" showToday={true} onChange={this.onSelectDate} />
+          <Input placeholder="Enter Description" name="add_description" onChange={this.handleChange}/>
+          <p>Warning: Avoid Loan Sharks...</p>
         </Modal>
         <Table columns={columns} expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>} dataSource={data} />,
       </React.Fragment>

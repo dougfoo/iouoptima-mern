@@ -7,6 +7,9 @@ class UserSerializer (serializers.ModelSerializer):
         fields = ('id','firstName', 'lastName', 'email', 'password','phone', 'friends')
 
 class LoanSerializer (serializers.ModelSerializer):
+    payee_email = serializers.CharField(source='payee.email')
+    payor_email = serializers.CharField(source='payor.email')
+
     class Meta:
         model = Loan
-        fields = ('id','payee', 'payor', 'date', 'amount', 'description','status')
+        fields = ('id','payee','payee_email', 'payor', 'payor_email', 'date', 'amount', 'description','status')
