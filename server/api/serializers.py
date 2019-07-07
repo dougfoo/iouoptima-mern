@@ -13,3 +13,7 @@ class LoanSerializer (serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields = ('id','payee','payee_email', 'payor', 'payor_email', 'date', 'amount', 'description','status')
+    #    read_only_fields = ('payee_email','payor_email')
+
+    # def create(self, validated_data):
+    #     return Loan.objects.create(**validated_data)

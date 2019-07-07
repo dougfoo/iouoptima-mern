@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, InputNumber, Select, DatePicker, Input, Modal, Button, Table } from 'antd';
+import { Form, InputNumber, Select, DatePicker, Input, Modal, Button, Table, message } from 'antd';
 import axios from 'axios';
 import * as MyConsts from '../configs';
 
@@ -36,14 +36,21 @@ class Loans extends Component {
                 console.log(data);
                 this.setState({ loans: data });
             })
+            .catch(function (error) {
+              message.error("Axios backend loans error: "+error);
+            })
 
         axios.get(MyConsts.API_URL + '/users/').then(response => response.data)  // change to /friends later
             .then((data) => {
                 console.log(data);
                 this.setState({ friends: data });
             })
+            .catch(function (error) {
+              message.error("Axios backend users error: "+error);
+            })
     } catch (error) {
-    console.error(error);
+      console.error(error);
+      message.error("Axios unhandled error: "+error);
     }
   }
 
@@ -60,12 +67,19 @@ class Loans extends Component {
     this.setState({
       visible: false,
     });
-    
-    // need to post this to server -- 
-    this.setState(previousState => ({
-      loans: [...previousState.loans, {id:3,payee:3,payor:4,date:'2019-06-30',amount:200.0,description:'loan new',status:'P'}]
-    }));
-    console.log('setted the new state array)');
+
+    const mydata = {payee:3,payor:4,date:'2019-06-30',amount:200.0,description:'loan new',status:'P'}
+    const mydata2 = {firstName:'f',lastName:'l',email:'em',phone:'xxxx',password:'p'}
+
+    console.log('posting: ' + mydata)
+
+    try {
+      const response = axios.post(MyConsts.API_URL + '/users/', mydata2);
+      console.log(response);
+    }
+    catch(error) {
+      message.error("save error: "+error);
+    }
   };
 
   handleChange = e => {

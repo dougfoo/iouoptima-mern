@@ -13,3 +13,7 @@ class LoanViewSet(viewsets.ModelViewSet):
 #    permission_classes = (IsAuthenticated,)
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
+
+    # def create(self, request):
+    #     print("loan create request: "+str(request))
+    #     pass

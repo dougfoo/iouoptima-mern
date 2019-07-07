@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Table, Divider } from 'antd';
+import { message, Button, Table, Divider } from 'antd';
 import * as MyConsts from '../configs';
 import axios from 'axios';
 
@@ -21,6 +21,10 @@ class Users extends Component {
                 this.setState({ users: data });
                 console.log(this.state.users);
             })
+            .catch(function (error) {
+              message.error("Axios backend users error: "+error);
+            })
+
     } catch (error) {
     console.error(error);
     }
