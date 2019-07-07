@@ -57,6 +57,11 @@ export default class Register extends React.Component {
   };
   
   render() {
+    if (this.props.activeUser) {
+      console.log('active user present:');
+      console.log(this.props.activeUser);
+    }
+
     if (this.state.registered === true) {
       return (
         <div>
