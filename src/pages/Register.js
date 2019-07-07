@@ -19,12 +19,15 @@ export default class Register extends React.Component {
         console.log('Received values of form: ', values);
 
         try {
-//        values.email, values.password, values.firstName, values.lastName, values.confirm, values.phone
-          const response = axios.post(MyConsts.API_URL + '/users/', values);
+          const response =  this.props.editForm ? 
+            axios.put(MyConsts.API_URL + '/users/' + this.props.activeUser.id + '/', values) :
+            axios.post(MyConsts.API_URL + '/users/', values);
           console.log(response);
           this.setState({ registered: true });  // should check if really registered w/o errors first
           this.props.registerCallback(values.email);
-          message.success("Registered Successfully!");
+          this.props.editForm ? 
+            message.success("Updated Successfully!") :
+            message.success("Registered Successfully!");
         }
         catch(error) {
           this.setState({ registered: false });  // should check if really registered w/o errors first
@@ -105,20 +108,28 @@ export default class Register extends React.Component {
       </Select>,
     );
 
+    const userInfo = this.props.activeUser;
+    const editForm = this.props.editForm;
+    const RegisterTag = !editForm ? "Register" : "Edit";
+    console.log('props:', this.props);
+
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="First Name">
           {getFieldDecorator('firstName', {
+            initialValue: userInfo.firstName || null,
             rules: [{ required: true, message: 'Please input your first name!' }]
           })(<Input />)}
         </Form.Item> 
         <Form.Item label="Lost Name">
           {getFieldDecorator('lastName', {
+            initialValue: userInfo.lastName || null,
             rules: [{ required: true, message: 'Please input your lost name!' }]
           })(<Input />)}
         </Form.Item> 
         <Form.Item label="E-mail">
           {getFieldDecorator('email', {
+            initialValue: userInfo.email || null,
             rules: [
               {
                 type: 'email',
@@ -133,6 +144,7 @@ export default class Register extends React.Component {
         </Form.Item>
         <Form.Item label="Password" hasFeedback>
           {getFieldDecorator('password', {
+            initialValue: userInfo.password || null,
             rules: [
               {
                 required: true,
@@ -145,7 +157,8 @@ export default class Register extends React.Component {
           })(<Input.Password />)}
         </Form.Item>
         <Form.Item label="Confirm Password" hasFeedback>
-          {getFieldDecorator('confirm', {
+          {getFieldDecorator('confirm', {            
+            initialValue: userInfo.password || null,
             rules: [
               {
                 required: true,
@@ -159,24 +172,29 @@ export default class Register extends React.Component {
         </Form.Item>
         <Form.Item label="Phone Number">
           {getFieldDecorator('phone', {
+            initialValue: userInfo.phone || null,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          {getFieldDecorator('agreement', {
-            rules: [
-              { required: true, message: 'Please agree or die!' },
-            ],
-            valuePropName: 'checked'
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>,
-          )}
-        </Form.Item>
+        { ! editForm ? (
+          <Form.Item {...tailFormItemLayout}>
+            {getFieldDecorator('agreement', {
+              rules: [
+                { required: true, message: 'Please agree or die!' },
+              ],
+              valuePropName: 'checked'
+            })(
+              <Checkbox>
+                I have read the <a href="">agreement</a>
+              </Checkbox>,
+            )}
+          </Form.Item>
+        ):(
+          <span></span>
+        )}
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+              {RegisterTag}
           </Button>
         </Form.Item>
       </Form>

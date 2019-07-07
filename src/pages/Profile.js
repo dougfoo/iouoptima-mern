@@ -37,7 +37,7 @@ class Profile extends Component {
             <Button onClick={this.editProfile} >Edit Profile Details</Button>
           </div>
             ) : (
-          <RegistrationForm {...this.props} registerCallback={this.props.registerCallback} />
+          <RegistrationForm {...this.props} editForm={true} registerCallback={this.props.registerCallback} />
         )}
       </React.Fragment>
 
