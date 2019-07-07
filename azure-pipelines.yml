@@ -20,14 +20,19 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+- script: |      
+    python -m pip install --upgrade pip      
+    pip install -r requirements.txt    
+  displayName: 'Install dependencies'
+
 - task: PythonScript@0
   inputs:
     scriptSource: 'filePath'
-    scriptPath: '~server/manage.py'
-    arguments: 'makemigrations'
+    scriptPath: 'server/manage.py'
+    arguments: 'test'
 
 - task: PythonScript@0
   inputs:
     scriptSource: 'filePath'
     scriptPath: '~server/manage.py'
-    arguments: 'migrate'
+    arguments: 'makemigrations'
