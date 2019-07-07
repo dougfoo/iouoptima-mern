@@ -23,11 +23,11 @@ steps:
 - task: PythonScript@0
   inputs:
     scriptSource: 'filePath'
-    scriptPath: 'server/manage.py'
+    scriptPath: 'manage.py'
     arguments: 'makemigrations'
 
 - task: PythonScript@0
   inputs:
     scriptSource: 'filePath'
-    scriptPath: 'server/manage.py'
+    scriptPath: '~server/manage.py'
     arguments: 'migrate'
