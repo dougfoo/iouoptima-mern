@@ -23,7 +23,7 @@ steps:
 - task: PythonScript@0
   inputs:
     scriptSource: 'filePath'
-    scriptPath: 'manage.py'
+    scriptPath: '~server/manage.py'
     arguments: 'makemigrations'
 
 - task: PythonScript@0
