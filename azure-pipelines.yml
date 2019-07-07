@@ -24,4 +24,10 @@ steps:
   inputs:
     scriptSource: 'filePath'
     scriptPath: 'server/manage.py'
-    arguments: 'runserver'
+    arguments: 'makemigrations'
+
+- task: PythonScript@0
+  inputs:
+    scriptSource: 'filePath'
+    scriptPath: 'server/manage.py'
+    arguments: 'migrate'
