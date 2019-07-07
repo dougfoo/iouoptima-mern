@@ -1,28 +1,15 @@
 import React, { Component } from "react";
-import { Form,Input,Select,Row,Col,Checkbox,Button,AutoComplete } from 'antd';
-import { NavLink } from 'react-router-dom'
+import { Form,Input,Select,message,Checkbox,Button,AutoComplete } from 'antd';
+import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+import * as MyConsts from '../configs';
 
 const { Option } = Select;
-
-// replace this w/ a backend call and return success/error
-const FakeRegAPI = {
-  isRegistered: false,
-  register(username, password, firstName, lastName, confirm, phone) {
-    console.log('register: '+username+','+password+','+confirm+','+phone);
-    if (confirm === password) {
-      this.isRegistered= true;
-      return true;
-    }
-    else {
-      return false;
-    }
-  },
-}
 
 export default class Register extends React.Component {
   state = {
     confirmDirty: false,
-    registered: false
+    registered: false,
   };
 
   handleSubmit = e => {
@@ -31,14 +18,21 @@ export default class Register extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
 
-        // register obj
-        if (FakeRegAPI.register(values.email, values.password, values.firstName, values.lastName, values.confirm, values.phone)) {
+        try {
+//        values.email, values.password, values.firstName, values.lastName, values.confirm, values.phone
+          const response = axios.post(MyConsts.API_URL + '/users/', values);
+          console.log(response);
           this.setState({ registered: true });  // should check if really registered w/o errors first
           this.props.registerCallback(values.email);
+          message.success("Registered Successfully!");
+        }
+        catch(error) {
+          this.setState({ registered: false });  // should check if really registered w/o errors first
+          message.error("save error: "+error);
         }
       }
     });
-  };
+  }
 
   handleConfirmBlur = e => {
     const { value } = e.target;
@@ -63,7 +57,7 @@ export default class Register extends React.Component {
   };
   
   render() {
-    if (FakeRegAPI.isRegistered === true) {
+    if (this.state.registered === true) {
       return (
         <div>
           <p>
@@ -165,7 +159,10 @@ export default class Register extends React.Component {
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {
-            valuePropName: 'checked',
+            rules: [
+              { required: true, message: 'Please agree or die!' },
+            ],
+            valuePropName: 'checked'
           })(
             <Checkbox>
               I have read the <a href="">agreement</a>
