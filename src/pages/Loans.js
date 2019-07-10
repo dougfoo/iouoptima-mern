@@ -23,9 +23,9 @@ class Loans extends Component {
     loans: [],
     friends: [],
     add_payee: '',
-    add_date: ''
-    // auto add_description
-    // auto add_amount
+    add_date: '',
+    add_description: '',  // auto added, but add here for clarity
+    add_amount: 0         // auto added, but add here for clarity
   };  // move these add_ to an obj sometime later
 
   componentDidMount() {
@@ -62,25 +62,32 @@ class Loans extends Component {
   };
 
   handleOk = e => {
-    console.log('handleOk');
-    console.log(e);
+    console.log('handleOk', e);
     this.setState({
       visible: false,
     });
 
-    const mydata = {payee:3,payor:4,date:'2019-06-30',amount:200.0,description:'loan new',status:'P'}
-    const mydata2 = {firstName:'f',lastName:'l',email:'em',phone:'xxxx',password:'p'}
-
-    console.log('posting: ' + mydata)
+    const add_data = {payee: this.props.activeUser.id, payor: this.state.add_payee, date:'2019-06-30', // date: this.state.add_date,
+                    amount: this.state.add_amount, description: this.state.add_description, status:'P'}
+    console.log('add_data: ' , add_data)
 
     try {
-      const response = axios.post(MyConsts.API_URL + '/loans/', mydata);
+      const response = axios.post(MyConsts.API_URL + '/loans/', add_data)
+        .then((data) => {
+          console.log(data);
+          message.success("saved");
+        })
+        .catch(function (error) {
+          message.error("Axios backend users error: "+error);
+        })
       console.log(response);
-      message.success("saved");
     }
     catch(error) {
       message.error("save error: "+error);
     }
+    this.setState(prevState => ({
+      loans: [...prevState.loans, add_data]
+    }))
   };
 
   handleChange = e => {

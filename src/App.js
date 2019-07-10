@@ -72,9 +72,9 @@ class App extends Component {
             <Content style={{ padding: '0 50px' }}>
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
-                <Route path="/login" render={(props) => <LoginForm {...props} activeUser={this.state.activeUsername} loginCallback={this.setLogin} /> } />
+                <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={this.state.activeUsername} loginCallback={this.setLogin} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
-                <Route path="/loans" render={(props) => <Loans {...props} />} />
+                <Route path="/loans" render={(props) => <Loans {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/users" render={(props) => <Users {...props} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
                 <Route path="/about" component={About} />

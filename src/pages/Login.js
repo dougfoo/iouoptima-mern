@@ -57,7 +57,7 @@ export default class Login extends Component {
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
           <p>
-            Logged in:  { this.props.activeUser }
+            Logged in:  { this.props.activeUserName }
           </p>
         </div>
       )
@@ -101,7 +101,7 @@ export default class Login extends Component {
           Or <NavLink to="/register">register now!</NavLink>
         </Form.Item>
         <div>
-          Logged in:  { this.props.activeUser }
+          Logged in:  { this.props.activeUserName }
         </div>
       </Form>
     );
