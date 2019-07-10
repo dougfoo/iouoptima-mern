@@ -2,25 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-class Loan(models.Model):
-    LOAN_STATUS = (
-        ('P', 'Pending'),
-        ('A', 'Active'),
-        ('C', 'Cancelled'),
-        ('D', 'Done'),
-    )
- 
-    id = models.AutoField(primary_key=True)
-    payee = models.ForeignKey('User', on_delete=models.CASCADE, related_name='+')
-    payor = models.ForeignKey('User', on_delete=models.CASCADE, related_name='+')
-    date = models.DateField(auto_now_add=True)
-    amount = models.DecimalField(decimal_places=2, max_digits=12)
-    description = models.TextField()
-    status = models.CharField(max_length=1, choices=LOAN_STATUS)
-
-    def __str__(self):
-        return str(self.id) + ', ' + str(self.amount) + ': ' + str(self.payee)
-
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=40)
@@ -32,5 +13,25 @@ class User(models.Model):
 
     def __str__(self):
         return str(self.id) + ',' + self.email 
+
+class Loan(models.Model):
+    LOAN_STATUS = (
+        ('P', 'Pending'),
+        ('A', 'Active'),
+        ('C', 'Cancelled'),
+        ('D', 'Done'),
+    )
+ 
+    id = models.AutoField(primary_key=True)
+    payee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+    payor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+    date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(decimal_places=2, max_digits=12)
+    description = models.TextField()
+    status = models.CharField(max_length=1, choices=LOAN_STATUS)
+
+    def __str__(self):
+        return str(self.id) + ', ' + str(self.amount) + ': ' + str(self.payee)
+
 
 

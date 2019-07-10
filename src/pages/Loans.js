@@ -74,8 +74,9 @@ class Loans extends Component {
     console.log('posting: ' + mydata)
 
     try {
-      const response = axios.post(MyConsts.API_URL + '/users/', mydata2);
+      const response = axios.post(MyConsts.API_URL + '/loans/', mydata);
       console.log(response);
+      message.success("saved");
     }
     catch(error) {
       message.error("save error: "+error);
