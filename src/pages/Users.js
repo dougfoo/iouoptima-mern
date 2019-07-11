@@ -12,18 +12,17 @@ class Users extends Component {
   }
 
   componentDidMount() {
-    console.log('consolemount');
-    console.log('loadUsers()');
+    console.log('comp mount loadUsers()');
     try {
-        if (this.props.activeUser) {
-          axios.get(MyConsts.API_URL + '/users/'+activeUser.id).then(response => response.data)
+        if (this.props.activeUser) {  // implies /friends path
+          axios.get(MyConsts.API_URL + '/friends/'+this.props.activeUser.id).then(response => response.data)
               .then((data) => {
                   console.log(data);
                   this.setState({ users: data });
                   console.log(this.state.users);
               })
               .catch(function (error) {
-                message.error("Axios backend users error: "+error);
+                message.error("Axios backend active user error: "+error);
               })
         }
         else {
@@ -34,7 +33,7 @@ class Users extends Component {
                   console.log(this.state.users);
               })
               .catch(function (error) {
-                message.error("Axios backend users error: "+error);
+                message.error("Axios backend users list error: "+error);
               })
         }
     } catch (error) {

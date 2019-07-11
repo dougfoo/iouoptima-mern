@@ -1,17 +1,17 @@
 from rest_framework import serializers
 from .models import User, Loan
 
+# non-recursive version (not including friends.friends.friends....)
+class FriendSerializer (serializers.Serializer):
+    id = serializers.IntegerField()
+    email = serializers.EmailField()
+    firstName = serializers.CharField(max_length=40)
+    lastName = serializers.CharField(max_length=40)
+    phone = serializers.CharField(max_length=40)
+
+#normal version
 class UserSerializer (serializers.ModelSerializer):
- #   friends = serializers.StringRelatedField(many=True)
-
-    friends = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        many=True,
-        read_only=False,   #queryset needed?
-        allow_null=True,
-        slug_field='email'
-     )
-
+    friends = FriendSerializer(many=True, read_only=False)
     class Meta:
         model = User
         fields = ('__all__')

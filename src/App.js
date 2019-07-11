@@ -76,7 +76,7 @@ class App extends Component {
                 <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={this.state.activeUsername} loginCallback={this.setLogin} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} activeUser={this.state.activeUser} />} />
-                <Route path="/users" render={(props) => <Users {...props} />} />
+                <Route path="/users" render={(props) => <Users {...props}  />} />
                 <Route path="/friends" render={(props) => <Users {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
                 <Route path="/about" component={About} />

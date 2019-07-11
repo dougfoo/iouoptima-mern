@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from .models import User, Loan
-from .serializers import UserSerializer, LoanSerializer
+from .serializers import UserSerializer, LoanSerializer, FriendSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
@@ -16,8 +16,12 @@ class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
 
 class FriendList(ListAPIView):
-    serializer = UserSerializer
+    serializer_class = FriendSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        return User.objects.filter(user=user)
+        userid = self.kwargs['u_id']
+ #       return User.objects.filter(id=userid).only('friends')  # need to pass just User.friends list ...  how ?
+        q = User.objects.filter(id=userid).values('email')
+        print (str(q.query))
+        return q
+
