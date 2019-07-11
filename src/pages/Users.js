@@ -15,16 +15,28 @@ class Users extends Component {
     console.log('consolemount');
     console.log('loadUsers()');
     try {
-        axios.get(MyConsts.API_URL + '/users/').then(response => response.data)
-            .then((data) => {
-                console.log(data);
-                this.setState({ users: data });
-                console.log(this.state.users);
-            })
-            .catch(function (error) {
-              message.error("Axios backend users error: "+error);
-            })
-
+        if (this.props.activeUser) {
+          axios.get(MyConsts.API_URL + '/users/'+activeUser.id).then(response => response.data)
+              .then((data) => {
+                  console.log(data);
+                  this.setState({ users: data });
+                  console.log(this.state.users);
+              })
+              .catch(function (error) {
+                message.error("Axios backend users error: "+error);
+              })
+        }
+        else {
+          axios.get(MyConsts.API_URL + '/users/').then(response => response.data)
+              .then((data) => {
+                  console.log(data);
+                  this.setState({ users: data });
+                  console.log(this.state.users);
+              })
+              .catch(function (error) {
+                message.error("Axios backend users error: "+error);
+              })
+        }
     } catch (error) {
     console.error(error);
     }
@@ -36,6 +48,7 @@ class Users extends Component {
 
   render() {
     console.log(this.props);
+    const title = this.props.activeUser ? "Friends" : "User Admin";
     const data = this.state.users;
     const columns = [
       {
@@ -74,7 +87,7 @@ class Users extends Component {
 
     return (
       <React.Fragment>
-        <h1>Users</h1>
+        <h1>{title}</h1>
         <Button onClick={this.handleAddFriend} >Add Friend</Button>
         <Table columns={columns} dataSource={data} />
       </React.Fragment>

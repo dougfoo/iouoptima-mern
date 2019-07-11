@@ -64,9 +64,10 @@ class App extends Component {
                 style={{ lineHeight: '64px' }} >
                   <Menu.Item key="1"><NavLink to="/login" activeClassName="active">Login/Logout</NavLink></Menu.Item>
                   <Menu.Item key="2"><NavLink to="/loans" activeClassName="active">Loans</NavLink></Menu.Item>
-                  <Menu.Item key="3"><NavLink to="/users" activeClassName="active">Friends</NavLink></Menu.Item>
-                  <Menu.Item key="4"><NavLink to="/profile" activeClassName="active">My Profile</NavLink></Menu.Item>
-                  <Menu.Item key="5"><NavLink to="/about" activeClassName="active">About</NavLink></Menu.Item>
+                  <Menu.Item key="3"><NavLink to="/users" activeClassName="active">User Admin</NavLink></Menu.Item>
+                  <Menu.Item key="4"><NavLink to="/friends" activeClassName="active">Friends</NavLink></Menu.Item>
+                  <Menu.Item key="5"><NavLink to="/profile" activeClassName="active">My Profile</NavLink></Menu.Item>
+                  <Menu.Item key="6"><NavLink to="/about" activeClassName="active">About</NavLink></Menu.Item>
               </Menu>
             </Header>
             <Content style={{ padding: '0 50px' }}>
@@ -76,6 +77,7 @@ class App extends Component {
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
                 <Route path="/loans" render={(props) => <Loans {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/users" render={(props) => <Users {...props} />} />
+                <Route path="/friends" render={(props) => <Users {...props} activeUser={this.state.activeUser} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
                 <Route path="/about" component={About} />
               </div>

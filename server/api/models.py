@@ -6,7 +6,7 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=40)
     lastName = models.CharField(max_length=40)
-    email = models.CharField(max_length=60)  
+    email = models.CharField(max_length=60, unique=True)  
     password = models.CharField(max_length=60)
     phone = models.CharField(max_length=60)  
     friends = models.ManyToManyField("self", blank=True)

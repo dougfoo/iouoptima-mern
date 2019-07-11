@@ -4,6 +4,7 @@ from .models import User, Loan
 from .serializers import UserSerializer, LoanSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -14,6 +15,9 @@ class LoanViewSet(viewsets.ModelViewSet):
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
 
-    # def create(self, request):
-    #     print("loan create request: "+str(request))
-    #     pass
+class FriendList(ListAPIView):
+    serializer = UserSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(user=user)
