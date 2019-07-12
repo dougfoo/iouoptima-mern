@@ -15,10 +15,11 @@ class Users extends Component {
     console.log('comp mount loadUsers()');
     try {
         if (this.props.activeUser) {  // implies /friends path
-          axios.get(MyConsts.API_URL + '/friends/'+this.props.activeUser.id).then(response => response.data)
+          this.props.activeUser.id = '1/'
+          axios.get(MyConsts.API_URL + '/users/'+this.props.activeUser.id).then(response => response.data)
               .then((data) => {
                   console.log(data);
-                  this.setState({ users: data });
+                  this.setState({ users: data.friends });
                   console.log(this.state.users);
               })
               .catch(function (error) {

@@ -16,12 +16,13 @@ class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
 
 class FriendList(ListAPIView):
-    serializer_class = FriendSerializer
+    serializer_class = UserSerializer
+    queryset = User.objects.all().values('friends')
 
-    def get_queryset(self):
-        userid = self.kwargs['u_id']
- #       return User.objects.filter(id=userid).only('friends')  # need to pass just User.friends list ...  how ?
-        q = User.objects.filter(id=userid).values('email')
-        print (str(q.query))
-        return q
+#     def get_queryset(self):
+#         userid = self.kwargs['u_id']
+#  #       return User.objects.filter(id=userid).only('friends')  # need to pass just User.friends list ...  how ?
+#         q = User.objects.filter(id=userid).values('email')
+#         print (str(q.query))
+#         return q
 
