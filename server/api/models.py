@@ -10,7 +10,7 @@ class Profile(models.Model):
     id = models.AutoField(primary_key=True)   # prob can delete this
     firstName = models.CharField(max_length=40)
     lastName = models.CharField(max_length=40)
-    email2 = models.CharField(max_length=60, unique=True)  
+    email2 = models.EmailField()
     password = models.CharField(max_length=60)
     phone = models.CharField(max_length=60)  
     friends = models.ManyToManyField("self", blank=True)

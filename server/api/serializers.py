@@ -4,14 +4,15 @@ from .models import Profile, Loan
 # non-recursive version (not including friends.friends.friends....)
 class FriendSerializer (serializers.Serializer):
     id = serializers.IntegerField()
-    email = serializers.EmailField()
+    email2 = serializers.EmailField()
     firstName = serializers.CharField(max_length=40)
     lastName = serializers.CharField(max_length=40)
     phone = serializers.CharField(max_length=40)
 
 #normal version
-class UserSerializer (serializers.ModelSerializer):
+class ProfileSerializer (serializers.ModelSerializer):
     friends = FriendSerializer(many=True, read_only=False)
+    
     class Meta:
         model = Profile
         fields = ('__all__')
