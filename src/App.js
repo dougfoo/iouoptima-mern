@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import './App.css';
 import React, { Component } from 'react';
-import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Redirect, withRouter } from 'react-router-dom';
 import { Form, Layout, Menu, } from 'antd';
 
 import About from './pages/About';
@@ -13,43 +13,48 @@ import Profile from './pages/Profile';
 
 const { Header, Footer, Content } = Layout;
 
+const fakeAuth = {
+  isAuthenticated() {
+    const userid = localStorage.getItem('userid');
+    if (userid != null) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+}
+
+// this works but cna't pass arbitary params down... only props hmmmm
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    fakeAuth.isAuthenticated() === true
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
+)
+
 class App extends Component {
   state = {
-    isAuthenticated: false,
-    activeUsername: 'nobody',
-    activeUser: {
-      id: 1,
-      firstName: 'doug',
-      lastName: 'foo',
-      phone: '650-629-9731',
-      email: 'doug.foo@gmail.com',
-      friends: [],
-      password: 'abcd'
-    },
   };
 
+
   componentDidMount() {
-    console.log('consolemount');
   }
 
   setRegister = (username) => {
     console.log('registering '+username);
   }
 
-  setLogin = (username) => {
-    if (username) {
-      this.setState({isAuthenticated: true, activeUsername: username
-      // set activeUser: ... ?
-      });
-    }
-    else {
-      this.setState({isAuthenticated: false, activeUsername: 'nobody', activeUser: ''});
-    }
-  }
-
   render() {
     const LoginForm = Form.create()(Login);   // can i put this in the Login.js
     const RegistrationForm = Form.create()(Register);  // can i put this in Register.js
+
+    const userid = localStorage.getItem('userid');
+    const username = localStorage.getItem('username');
+    const accesstoken = localStorage.getItem("accesstoken");
+    const refreshtoken = localStorage.getItem("refreshtoken");
+    console.log('tokens', accesstoken, refreshtoken, userid, username)
 
     return (
       <BrowserRouter >
@@ -74,19 +79,20 @@ class App extends Component {
             <Content style={{ padding: '0 50px' }}>
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
-                <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={this.state.activeUsername} loginCallback={this.setLogin} /> } />
+                {/* <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} loginCallback={this.setLogin} /> } /> */}
+                <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
-                <Route path="/loans" render={(props) => <Loans {...props}  />} />
-                <Route path="/myloans" render={(props) => <Loans {...props} activeUser={this.state.activeUser} />} />
+                <PrivateRoute path="/loans" component={Loans} />
+                <Route path="/myloans" render={(props) => <Loans {...props} activeUser={userid} />} />
                 <Route path="/users" render={(props) => <Users {...props}  />} />
-                <Route path="/friends" render={(props) => <Users {...props} activeUser={this.state.activeUser} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
+                <Route path="/friends" render={(props) => <Users {...props} activeUser={userid} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} activeUser={userid} registerCallback={this.setRegister}/>} />
                 <Route path="/about" component={About} />
               </div>
             </Content>
             <Content style={{ textAlign: 'center' }}>
               <div style={{  padding: 6, minHeight: 30 }}>
-                  Logged In: {this.state.activeUsername}
+                  Logged In: {username}
               </div>
             </Content>
             <Footer style={{ background: '#ddd', textAlign: 'center' }}>©2018 Doug Foo</Footer>

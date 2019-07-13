@@ -1,63 +1,70 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import { Redirect, NavLink } from 'react-router-dom'
+import axios from 'axios';
+import * as MyConsts from '../configs';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// replace this w/ a backend call and return success/error
-const FakeAuthAPI = {
-  isAuthenticated: false,
-  authenticate(username, password) {
-    if (username === password) {
-      this.isAuthenticated= true;
-      return true;
-    }
-    else {
-      return false;
-    }
-  },
-  signout(cb) {
-    this.isAuthenticated= false;
-    setTimeout(cb, 100);
-  }
-}
-
 export default class Login extends Component {
+  state = {
+    accesstoken: '',
+    refreshtoken: '',
+    isAuthenticated: false,
+  };
+
   handleLogout = e => {
     e.preventDefault();
     message.loading("logging out..",2.5);
-    FakeAuthAPI.signout();
     this.props.loginCallback();
     this.setState({redirectBack: false});
+
+    localStorage.removeItem("accesstoken");
+    localStorage.removeItem("refreshtoken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userid");
   }
 
   handleSubmit = e => {
     e.preventDefault();
     message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
-      if (!err) {        
-        if (FakeAuthAPI.authenticate(values.username, values.password)) {
-          this.props.loginCallback(values.username);  //sets state and refreshes
-          this.setState({redirectBack: true});
-        }
-        else {
-          message.error("username/password invalid..",2.5);
-        }
+      if (!err) {
+        console.log('login:', values.username, values.password);
+        axios.post(MyConsts.API_URL + '/api/token/', 
+              {username: values.username, password: values.password}, 
+              {headers: {"Content-Type": "application/json"}})
+            .then(response => response.data)
+            .then((data) => {
+                console.log(data);
+                this.setState({ accesstoken: data.access, refreshtoken: data.refresh, isAuthenticated: true });                
+                message.info("Logged in");
+                localStorage.setItem('accesstoken',data.access)
+                localStorage.setItem('refreshtoken',data.refresh)
+                localStorage.setItem('username',values.username)
+                localStorage.setItem('userid',2)
+            })
+            .catch(function (error) {
+                message.error("Axios backend active user error: "+error);
+            })
+      }
+      else {
+        message.error("Form validation errors: "+err);
       }
     });
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-  
-    if (FakeAuthAPI.isAuthenticated === true) {
+    const { getFieldDecorator } = this.props.form;  
+
+    if (this.state.isAuthenticated === true) {
       return (
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
           <p>
-            Logged in:  { this.props.activeUserName }
+            Logged in:  { this.state.accesstoken }
           </p>
         </div>
       )
