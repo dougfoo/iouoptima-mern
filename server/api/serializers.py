@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Loan
+from .models import CustomUser, Loan
 
 # non-recursive version (not including friends.friends.friends....)
 class FriendSerializer (serializers.Serializer):
@@ -13,7 +13,7 @@ class FriendSerializer (serializers.Serializer):
 class UserSerializer (serializers.ModelSerializer):
     friends = FriendSerializer(many=True, read_only=False)
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('__all__')
 
 class LoanSerializer (serializers.ModelSerializer):
