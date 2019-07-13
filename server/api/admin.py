@@ -1,16 +1,22 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Loan
+from .models import Profile
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
 
 class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    model = CustomUser
-    list_display = ['email', 'username',]
+    inlines = (ProfileInline, )
 
-# Register your models here.
-admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Loan)
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)

@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from .models import CustomUser, Loan
+from .models import Loan, Profile
 from .serializers import UserSerializer, LoanSerializer, FriendSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
+from django.contrib.auth.models import User
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
-    queryset = CustomUser.objects.all()
+    queryset = User.objects.all().select_related('profile')
 
 class LoanViewSet(viewsets.ModelViewSet):
 #    permission_classes = (IsAuthenticated,)
@@ -16,12 +17,5 @@ class LoanViewSet(viewsets.ModelViewSet):
 
 class FriendList(ListAPIView):
     serializer_class = UserSerializer
-    queryset = CustomUser.objects.all().values('friends')
-
-#     def get_queryset(self):
-#         userid = self.kwargs['u_id']
-#  #       return User.objects.filter(id=userid).only('friends')  # need to pass just User.friends list ...  how ?
-#         q = User.objects.filter(id=userid).values('email')
-#         print (str(q.query))
-#         return q
-
+    queryset = User.objects.all().select_related('profile') # should grab friends only ?
+    
