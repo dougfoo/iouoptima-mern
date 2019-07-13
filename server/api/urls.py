@@ -9,9 +9,9 @@ router.register(r'users', UserViewSet)
 router.register(r'loans', LoanViewSet)
 
 urlpatterns = [
-    re_path(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     re_path(r'^friends/(?P<u_id>.+)/$', FriendList.as_view()),
     re_path(r'^friends/$', FriendList.as_view()),
+    re_path(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     re_path(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     re_path(r'^api/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
     path('', include(router.urls)),
