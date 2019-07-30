@@ -22,3 +22,5 @@ My mini project to build the ultimate IOU application
 
  - Tri-party optimization / collapse
 
+![Example](https://github.com/dougfoo/iouoptima/blob/master/iou-1.png)
+
