@@ -5,7 +5,7 @@ My mini project to build the ultimate IOU application
  - Technology
     - React front end with antd component library
     - Django and REST on backend
-    - Integration to Mongo backend
+    - Integration to Mongo backend (or start with MySql)
     - Login integration to Google / FB
     - Hosted integration w/ Azure AWS and GCE
 
@@ -21,4 +21,6 @@ My mini project to build the ultimate IOU application
     - (States:  Pending, Live, Paid)
 
  - Tri-party optimization / collapse
+
+![Example](https://github.com/dougfoo/iouoptima/blob/master/iou-1.png)
 
