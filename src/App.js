@@ -36,10 +36,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 class App extends Component {
   state = {
+    activeUser: {
+      id: 1,
+      firstName: 'doug',
+      lastName: 'foo',
+      phone: '650-629-9731',
+      email: 'doug.foo@gmail.com',
+      friends: [],
+      password: 'abcd'
+    },
   };
 
-
   componentDidMount() {
+
   }
 
   setRegister = (username) => {
@@ -81,12 +90,12 @@ class App extends Component {
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 {/* <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} loginCallback={this.setLogin} /> } /> */}
                 <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} /> } />
-                <Route path="/register" render={(props) => <RegistrationForm {...props} registerCallback={this.setRegister} /> } />
+                <Route path="/register" render={(props) => <RegistrationForm {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister} /> } />
                 <PrivateRoute path="/loans" component={Loans} />
                 <Route path="/myloans" render={(props) => <Loans {...props} activeUser={userid} />} />
                 <Route path="/users" render={(props) => <Users {...props}  />} />
                 <Route path="/friends" render={(props) => <Users {...props} activeUser={userid} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} activeUser={userid} registerCallback={this.setRegister}/>} />
+                <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
                 <Route path="/about" component={About} />
               </div>
             </Content>
