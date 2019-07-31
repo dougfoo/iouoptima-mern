@@ -18,7 +18,6 @@ export default class Login extends Component {
   handleLogout = e => {
     e.preventDefault();
     message.loading("logging out..",2.5);
-    this.props.loginCallback();
     this.setState({redirectBack: false});
 
     localStorage.removeItem("accesstoken");
