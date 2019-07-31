@@ -14,8 +14,8 @@ class Users extends Component {
   componentDidMount() {
     console.log('comp mount loadUsers()');
     try {
-        if (this.props.activeUser) {  // implies /friends path
-          this.props.activeUser.id = '2/'
+        if (this.props.activeUser) {  // hardcoded hack for now
+          this.props.activeUser.id = '2/';   // hardcoded hack for now
           axios.get(MyConsts.API_URL + '/users/'+this.props.activeUser.id).then(response => response.data)
               .then((data) => {
                   console.log(data);

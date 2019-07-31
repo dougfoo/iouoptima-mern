@@ -18,7 +18,6 @@ class Profile extends Component {
     const RegistrationForm = Form.create()(Register);  // can i put this in Register.js
 
     console.log(this.props.activeUser);
-    console.log(Object.keys(this.props.activeUser));
 
     return (
       <React.Fragment>

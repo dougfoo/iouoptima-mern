@@ -2,14 +2,15 @@ import 'antd/dist/antd.css';
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect, withRouter } from 'react-router-dom';
-import { Form, Layout, Menu, } from 'antd';
-
+import { Form, Layout, Menu, message, } from 'antd';
+import axios from 'axios';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Loans from './pages/Loans';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
+import * as MyConsts from './configs';
 
 const { Header, Footer, Content } = Layout;
 
@@ -37,18 +38,40 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 class App extends Component {
   state = {
     activeUser: {
-      id: 1,
-      firstName: 'doug',
-      lastName: 'foo',
-      phone: '650-629-9731',
-      email: 'doug.foo@gmail.com',
+      id: 0,
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
       friends: [],
-      password: 'abcd'
+      password: ''
     },
   };
 
   componentDidMount() {
+    // fetch user and set state
+    const tokens = MyConsts.getTokens();
 
+    if (tokens.userid) {
+      axios.get(MyConsts.API_URL + '/users/'+tokens.userid +'/').then(response => response.data)
+      .then((data) => {
+          console.log('setting state activeUser: ', data);
+          const datauser = {};
+          datauser.id = data.id;
+          datauser.firstName = data.firstName;
+          datauser.lastName = data.lastName;
+          datauser.phone = data.phone;
+          datauser.email = data.email;
+//          datauser.friends = data.friends;  // nested dont work, need to do manually or skip
+          this.setState({ activeUser: datauser });
+      })
+      .catch(function (error) {
+        message.error("Axios backend active user error: "+error);
+      })
+    }
+    else {
+      console.log('tokens: ', tokens);
+    }
   }
 
   setRegister = (username) => {
