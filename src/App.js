@@ -37,15 +37,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 class App extends Component {
   state = {
-    activeUser: {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      friends: [],
-      password: ''
-    },
   };
 
   componentDidMount() {
@@ -56,14 +47,14 @@ class App extends Component {
       axios.get(MyConsts.API_URL + '/users/'+tokens.userid +'/').then(response => response.data)
       .then((data) => {
           console.log('setting state activeUser: ', data);
-          const datauser = {};
-          datauser.id = data.id;
-          datauser.firstName = data.firstName;
-          datauser.lastName = data.lastName;
-          datauser.phone = data.phone;
-          datauser.email = data.email;
-//          datauser.friends = data.friends;  // nested dont work, need to do manually or skip
-          this.setState({ activeUser: datauser });
+          const user = {};
+          user.id = data.id;
+          user.firstName = data.firstName;
+          user.lastName = data.lastName;
+          user.phone = data.phone;
+          user.email = data.email;
+          user.friends = [];  // tbd
+          localStorage.setItem('activeUser',user);
       })
       .catch(function (error) {
         message.error("Axios backend active user error: "+error);
@@ -72,10 +63,6 @@ class App extends Component {
     else {
       console.log('tokens: ', tokens);
     }
-  }
-
-  setRegister = (username) => {
-    console.log('registering '+username);
   }
 
   render() {
@@ -111,14 +98,13 @@ class App extends Component {
             <Content style={{ padding: '0 50px' }}>
               <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
-                {/* <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} loginCallback={this.setLogin} /> } /> */}
-                <Route path="/login" render={(props) => <LoginForm {...props} activeUserName={username} /> } />
-                <Route path="/register" render={(props) => <RegistrationForm {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister} /> } />
+                <Route path="/login" render={(props) => <LoginForm {...props} /> } />
+                <Route path="/register" render={(props) => <RegistrationForm {...props}  /> } />
                 <PrivateRoute path="/loans" component={Loans} />
-                <Route path="/myloans" render={(props) => <Loans {...props} activeUser={userid} />} />
-                <Route path="/users" render={(props) => <Users {...props}  />} />
-                <Route path="/friends" render={(props) => <Users {...props} activeUser={userid} />} />
-                <Route path="/profile" render={(props) => <Profile {...props} activeUser={this.state.activeUser} registerCallback={this.setRegister}/>} />
+                <Route path="/myloans" render={(props) => <Loans {...props} />} />
+                <PrivateRoute path="/users"  component={Users} />
+                <Route path="/friends" render={(props) => <Users {...props}  />} />
+                <Route path="/profile" render={(props) => <Profile {...props} />} />
                 <Route path="/about" component={About} />
               </div>
             </Content>

@@ -10,23 +10,23 @@ function sleep(ms) {
 
 export default class Login extends Component {
   state = {
-    accesstoken: '',
-    refreshtoken: '',
-    isAuthenticated: false,
-  };
+    refresh: 0
+  }
 
   handleLogout = e => {
     e.preventDefault();
     message.loading("logging out..",2.5);
-    this.setState({redirectBack: false});
 
     localStorage.removeItem("accesstoken");
     localStorage.removeItem("refreshtoken");
     localStorage.removeItem("username");
     localStorage.removeItem("userid");
+    localStorage.removeItem('activeUser');
+
+    this.setState({refresh: 1});
   }
 
-  handleSubmit = e => {
+  handleLogin = e => {
     e.preventDefault();
     message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
@@ -37,13 +37,13 @@ export default class Login extends Component {
               {headers: {"Content-Type": "application/json"}})
             .then(response => response.data)
             .then((data) => {
-                console.log(data);
-                this.setState({ accesstoken: data.access, refreshtoken: data.refresh, isAuthenticated: true });                
+                console.log('login reply',data);
                 message.info("Logged in");
                 localStorage.setItem('accesstoken',data.access)
                 localStorage.setItem('refreshtoken',data.refresh)
                 localStorage.setItem('username',values.username)
                 localStorage.setItem('userid',2)
+                this.setState({refresh: 2});
             })
             .catch(function (error) {
                 message.error("Axios backend active user error: "+error);
@@ -56,60 +56,62 @@ export default class Login extends Component {
   };
 
   render() {
+    const loginTokens = MyConsts.getTokens();
     const { getFieldDecorator } = this.props.form;  
 
-    if (this.state.isAuthenticated === true) {
+    if (loginTokens.activeUser) {
       return (
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
           <p>
-            Logged in:  { this.state.accesstoken }
+            Logged in:  { loginTokens.username }
           </p>
         </div>
       )
     }
-
-    return (       
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' },
-          ],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <NavLink to="/register">register now!</NavLink>
-        </Form.Item>
-        <div>
-          Logged in:  { this.props.activeUserName }
-        </div>
-      </Form>
-    );
+    else {
+      return (       
+        <Form onSubmit={this.handleLogin} className="login-form">
+          <Form.Item>
+            {getFieldDecorator('username', {
+              rules: [{ required: true, message: 'Please input your username!' }],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Username"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Please input your Password!' },
+            ],
+            })(
+              <Input
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Password"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(<Checkbox>Remember me</Checkbox>)}
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              Log in
+            </Button>
+            Or <NavLink to="/register">register now!</NavLink>
+          </Form.Item>
+          <div>
+            Logged in:  { this.props.activeUserName }
+          </div>
+        </Form>
+      );
+    }
   }
 }

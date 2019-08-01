@@ -17,7 +17,7 @@ class Loans extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   state = { 
     visible: false,
     loans: [],
@@ -37,7 +37,7 @@ class Loans extends Component {
         }
         axios.get(MyConsts.API_URL + '/loans/').then(response => response.data)
             .then((data) => {
-                console.log(data);
+                console.log('loans',data);
                 this.setState({ loans: data });
             })
             .catch(function (error) {
@@ -46,7 +46,7 @@ class Loans extends Component {
 
         axios.get(MyConsts.API_URL + '/users/').then(response => response.data)  // change to /friends later
             .then((data) => {
-                console.log(data);
+                console.log('friends',data);
                 this.setState({ friends: data });
             })
             .catch(function (error) {
@@ -183,7 +183,7 @@ class Loans extends Component {
         ) 
         }
         <Modal
-          title="Basic Modal"
+          title="Make New IOU"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

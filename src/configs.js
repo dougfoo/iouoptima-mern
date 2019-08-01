@@ -7,6 +7,7 @@ export const getTokens = function () {
     const b = localStorage.getItem('refreshtoken')
     const c = localStorage.getItem('username')
     const d = localStorage.getItem('userid')  
-    return {accesstoken: a, refreshtoken: b, username: c, userid: d};
+    const e = localStorage.getItem('activeUser')  
+    return {accesstoken: a, refreshtoken: b, username: c, userid: d, activeUser: e};
   }
 
