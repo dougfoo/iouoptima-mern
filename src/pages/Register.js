@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Form,Input,Select,message,Checkbox,Button,AutoComplete } from 'antd';
+import React from "react";
+import { Form,Input,Select,message,Checkbox,Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import * as MyConsts from '../configs';

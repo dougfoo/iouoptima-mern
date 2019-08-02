@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, message, Descriptions } from 'antd';  // upgrade antd 3.20
+import { Form, Button, Descriptions } from 'antd';  // upgrade antd 3.20
 import Register from './Register';
 import * as MyConsts from '../configs';
 

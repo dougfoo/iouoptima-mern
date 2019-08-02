@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
-import { Redirect, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import axios from 'axios';
 import * as MyConsts from '../configs';
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export default class Login extends Component {
   state = {
     loggedIn: false
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('userid') != null) {
+      this.setState({loggedIn: true});
+    }
   }
 
   handleLogout = e => {

@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import './App.css';
 import React, { Component } from 'react';
-import { BrowserRouter, Route, NavLink, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Redirect,  } from 'react-router-dom';
 import { Form, Layout, Menu, message, } from 'antd';
 import axios from 'axios';
 import About from './pages/About';
