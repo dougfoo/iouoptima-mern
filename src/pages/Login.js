@@ -10,7 +10,7 @@ function sleep(ms) {
 
 export default class Login extends Component {
   state = {
-    refresh: 0
+    loggedIn: false
   }
 
   handleLogout = e => {
@@ -23,7 +23,7 @@ export default class Login extends Component {
     localStorage.removeItem("userid");
     localStorage.removeItem('activeUser');
 
-    this.setState({refresh: 1});
+    this.setState({loggedIn: false});
   }
 
   handleLogin = e => {
@@ -31,7 +31,6 @@ export default class Login extends Component {
     message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('login:', values.username, values.password);
         axios.post(MyConsts.API_URL + '/api/token/', 
               {username: values.username, password: values.password}, 
               {headers: {"Content-Type": "application/json"}})
@@ -42,12 +41,20 @@ export default class Login extends Component {
                 localStorage.setItem('accesstoken',data.access)
                 localStorage.setItem('refreshtoken',data.refresh)
                 localStorage.setItem('username',values.username)
-                localStorage.setItem('userid',2)
-                this.setState({refresh: 2});
             })
             .catch(function (error) {
                 message.error("Axios backend active user error: "+error);
             })
+        axios.get(MyConsts.API_URL + '/login/' + values.username + '/')
+          .then(response => response.data) 
+          .then((data) => {
+            console.log('userid fetch: ' + data.userid)
+            localStorage.setItem('userid',data.userid)                    
+            this.setState({loggedIn: true});
+          })
+          .catch(function (error) {
+              message.error("Axios backend active user error on loginid fetch: "+error);
+          })
       }
       else {
         message.error("Form validation errors: "+err);
@@ -59,7 +66,7 @@ export default class Login extends Component {
     const loginTokens = MyConsts.getTokens();
     const { getFieldDecorator } = this.props.form;  
 
-    if (loginTokens.activeUser) {
+    if (this.state.loggedIn) {
       return (
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
