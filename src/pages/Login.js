@@ -5,8 +5,12 @@ import axios from 'axios';
 import * as MyConsts from '../configs';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
-    loggedIn: false
+    loggedIn: false,
   }
 
   componentDidMount() {
@@ -23,7 +27,7 @@ export default class Login extends Component {
     localStorage.removeItem("refreshtoken");
     localStorage.removeItem("username");
     localStorage.removeItem("userid");
-    localStorage.removeItem('activeUser');
+    localStorage.removeItem("activeUser");
 
     this.setState({loggedIn: false});
     this.props.setLogout(true);
@@ -52,13 +56,28 @@ export default class Login extends Component {
           .then(response => response.data) 
           .then((data) => {
             console.log('userid fetch: ' + data.userid)
-            localStorage.setItem('userid',data.userid)                    
-            this.setState({loggedIn: true});  // page conflict w/ header refresh
+
+            axios.get(MyConsts.API_URL + '/users/'+ data.userid +'/').then(response => response.data)
+              .then((data) => {
+                  console.log('setting state activeUser: ', data);  // used by profile page for now -- remove/refactor ?
+                  const user = {};
+                  user.id = data.id;
+                  user.firstName = data.firstName;
+                  user.lastName = data.lastName;
+                  user.phone = data.phone;
+                  user.email = data.email2;
+                  user.friends = [];  // tbd
+                  localStorage.setItem('activeUser',JSON.stringify(user)); // is this right - impacts Reg and Profile
+                  localStorage.setItem('userid',data.userid); // is this right - impacts Reg and Profile
+              })
+              .catch(function (error) {
+                message.error("Axios backend active user fetch error: "+error);
+              })  
           })
           .catch(function (error) {
               message.error("Axios backend active user error on loginid fetch: "+error);
           })
-          this.props.setLogout(false);  // page conflict w/ header refresh
+        this.props.setLogout(false);  // page conflict w/ header refresh
       }
       else {
         message.error("Form validation errors: "+err);
@@ -119,7 +138,7 @@ export default class Login extends Component {
             Or <NavLink to="/register">register now!</NavLink>
           </Form.Item>
           <div>
-            Logged in:  { this.props.activeUserName }
+            Logged in:  { loginTokens.username }
           </div>
         </Form>
       );

@@ -12,11 +12,11 @@ class Users extends Component {
   }
 
   componentDidMount() {
-    console.log('comp mount loadUsers()');
+    console.log('comp mount loadUsers() admin:', this.props.admin);
     try {
-        if (this.props.activeUser) {  // hardcoded hack for now
-          this.props.activeUser.id = '2/';   // hardcoded hack for now
-          axios.get(MyConsts.API_URL + '/users/'+this.props.activeUser.id).then(response => response.data)
+        if (this.props.admin && this.props.admin == false) {  
+          const userid = MyConsts.getTokens().userid;   
+          axios.get(MyConsts.API_URL + '/users/'+ userid).then(response => response.data)
               .then((data) => {
                   console.log(data);
                   this.setState({ users: data.friends });
@@ -36,7 +36,7 @@ class Users extends Component {
               .catch(function (error) {
                 message.error("Axios backend users list error: "+error);
               })
-        }
+          }
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +48,7 @@ class Users extends Component {
 
   render() {
     console.log(this.props);
-    const title = this.props.activeUser ? "Friends" : "User Admin";
+    const title = "Friends and Admins";
     const data = this.state.users;
     const columns = [
       {

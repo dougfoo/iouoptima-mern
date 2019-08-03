@@ -17,7 +17,7 @@ class Profile extends Component {
 
   render() {
     const RegistrationForm = Form.create()(Register);  // can i put this in Register.js
-    const user = MyConsts.getTokens().activeUser;
+    const user = JSON.parse(MyConsts.getTokens().activeUser);     // see Login.js why do i have to do this?
 
     return (
       <React.Fragment>

@@ -31,10 +31,6 @@ class Loans extends Component {
   componentDidMount() {
     console.log('consolemount');
     try {
-
-        if (this.props.activeUser) {
-          // need a backend view that shows my loans
-        }
         axios.get(MyConsts.API_URL + '/loans/').then(response => response.data)
             .then((data) => {
                 console.log('loans',data);
@@ -131,7 +127,7 @@ class Loans extends Component {
   };
 
   render() {
-    console.log(this.props);
+    console.log('loanrender props',this.props);
     const data = this.state.loans;
     const columns = [
       {
@@ -176,12 +172,7 @@ class Loans extends Component {
     return (
       <React.Fragment>
         <h1>Loans</h1>        
-        { this.props.activeUser ? (
-          <Button onClick={this.addNewLoanModal} >Make New IOU</Button>
-        ) : (
-          ''
-        ) 
-        }
+        <Button onClick={this.addNewLoanModal} >Make New IOU</Button>
         <Modal
           title="Make New IOU"
           visible={this.state.visible}

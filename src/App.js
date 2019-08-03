@@ -35,28 +35,6 @@ class App extends Component {
 
   componentDidMount() {
     // fetch user and set state
-    const tokens = MyConsts.getTokens();
-
-    if (tokens.userid) {
-      axios.get(MyConsts.API_URL + '/users/'+tokens.userid +'/').then(response => response.data)
-      .then((data) => {
-          console.log('setting state activeUser: ', data);
-          const user = {};
-          user.id = data.id;
-          user.firstName = data.firstName;
-          user.lastName = data.lastName;
-          user.phone = data.phone;
-          user.email = data.email;
-          user.friends = [];  // tbd
-          localStorage.setItem('activeUser',user);
-      })
-      .catch(function (error) {
-        message.error("Axios backend active user error: "+error);
-      })
-    }
-    else {
-      console.log('tokens: ', tokens);
-    }
   }
 
   render() {
@@ -67,7 +45,7 @@ class App extends Component {
     const username = localStorage.getItem('username');
     const accesstoken = localStorage.getItem("accesstoken");
     const refreshtoken = localStorage.getItem("refreshtoken");
-    console.log('tokens', accesstoken, refreshtoken, userid, username)
+    console.log('app render tokens', accesstoken, refreshtoken, userid, username)
 
     return (
       <BrowserRouter >
@@ -94,10 +72,10 @@ class App extends Component {
                 <Route exact path="/" render={() => ( <Redirect to="/about"/>)} />
                 <Route path="/login" render={(props) => <LoginForm {...props} loggedOut={this.state.disableMenu} setLogout={this.setLogout} /> } />
                 <Route path="/register" render={(props) => <RegistrationForm {...props} /> } />
-                <PrivateRoute path="/loans" component={Loans} />
-                <Route path="/myloans" render={(props) => <Loans {...props} />} />
+                <PrivateRoute path="/loans" component={Loans} /> 
+                <Route path="/myloans" render={(props) => <Loans {...props} admin={false} />} />
                 <PrivateRoute path="/users"  component={Users} />
-                <Route path="/friends" render={(props) => <Users {...props}  />} />
+                <Route path="/friends" render={(props) => <Users {...props} admin={false} />} />
                 <Route path="/profile" render={(props) => <Profile {...props} />} />
                 <Route path="/about" component={About} />
               </div>

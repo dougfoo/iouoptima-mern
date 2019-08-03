@@ -19,8 +19,10 @@ export default class Register extends React.Component {
         console.log('Received values of form: ', values);
 
         try {
+          const userid = MyConsts.getTokens().userid;   
+
           const response =  this.props.editForm ? 
-            axios.put(MyConsts.API_URL + '/users/' + this.props.activeUser.id + '/', values) :
+            axios.put(MyConsts.API_URL + '/users/' + userid + '/', values) :
             axios.post(MyConsts.API_URL + '/users/', values);
           console.log(response);
           this.setState({ registered: true });  // should check if really registered w/o errors first
@@ -60,11 +62,6 @@ export default class Register extends React.Component {
   };
   
   render() {
-    if (this.props.activeUser) {
-      console.log('active user present:');
-      console.log(this.props.activeUser);
-    }
-
     if (this.state.registered === true) {
       return (
         <div>
@@ -108,10 +105,9 @@ export default class Register extends React.Component {
       </Select>,
     );
 
-    const userInfo = this.props.activeUser;
+    const userInfo = JSON.parse(MyConsts.getTokens().activeUser);  // see Login.js why do i have to do this?
     const editForm = this.props.editForm;
     const RegisterTag = !editForm ? "Register" : "Edit";
-    console.log('props:', this.props);
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
