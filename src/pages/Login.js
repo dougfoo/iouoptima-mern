@@ -26,6 +26,7 @@ export default class Login extends Component {
     localStorage.removeItem('activeUser');
 
     this.setState({loggedIn: false});
+    this.props.setLogout(true);
   }
 
   handleLogin = e => {
@@ -52,11 +53,12 @@ export default class Login extends Component {
           .then((data) => {
             console.log('userid fetch: ' + data.userid)
             localStorage.setItem('userid',data.userid)                    
-            this.setState({loggedIn: true});
+            this.setState({loggedIn: true});  // page conflict w/ header refresh
           })
           .catch(function (error) {
               message.error("Axios backend active user error on loginid fetch: "+error);
           })
+          this.props.setLogout(false);  // page conflict w/ header refresh
       }
       else {
         message.error("Form validation errors: "+err);
@@ -68,7 +70,7 @@ export default class Login extends Component {
     const loginTokens = MyConsts.getTokens();
     const { getFieldDecorator } = this.props.form;  
 
-    if (this.state.loggedIn) {
+    if (! this.props.loggedOut) {
       return (
         <div>
           <Button onClick={this.handleLogout} >Sign Out</Button>
