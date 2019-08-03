@@ -64,8 +64,8 @@ class Users extends Component {
       },
       {
         title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
+        dataIndex: 'email2',
+        key: 'email2',
       },
       {
         title: 'Phone',
