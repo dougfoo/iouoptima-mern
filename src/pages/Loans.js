@@ -21,7 +21,7 @@ class Loans extends Component {
   state = { 
     visible: false,
     loans: [],
-    friends: [],
+    friends: [],   // AB#60 -- how to add this
     add_payee: '',
     add_date: '',
     add_description: '',  // auto added, but add here for clarity
@@ -167,8 +167,6 @@ class Loans extends Component {
       },
     ];
 
-    const friendList = this.state.friends;
-
     return (
       <React.Fragment>
         <h1>Loans</h1>        
@@ -194,8 +192,8 @@ class Loans extends Component {
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {friendList.map(({id, email}) => (
-                <Option name="selopt" value={id} >{email}</Option>
+            {this.state.friends.map(({id, email2}) => (
+                <Option name="selopt" value={id} >{email2}</Option>
             ))}
           </Select>
           <p></p>
