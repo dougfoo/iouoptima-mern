@@ -18,8 +18,8 @@ class ProfileSerializer (serializers.ModelSerializer):
         fields = ('__all__')
 
 class LoanSerializer (serializers.ModelSerializer):
-    payee_email = serializers.ReadOnlyField(source='payee.email')
-    payor_email = serializers.ReadOnlyField(source='payor.email')
+    payee_email = serializers.ReadOnlyField(source='payee.email2')
+    payor_email = serializers.ReadOnlyField(source='payor.email2')
 
     class Meta:
         model = Loan
