@@ -181,7 +181,7 @@ export default class Register extends React.Component {
               valuePropName: 'checked'
             })(
               <Checkbox>
-                I have read the <a href="">agreement</a>
+                I have read the <a href="/agreement.html">agreement</a>
               </Checkbox>,
             )}
           </Form.Item>

@@ -5,16 +5,12 @@ import axios from 'axios';
 import * as MyConsts from '../configs';
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     loggedIn: false,
   }
 
   componentDidMount() {
-    if (localStorage.getItem('userid') != null) {
+    if (MyConsts.isLoggedIn()) {
       this.setState({loggedIn: true});
     }
   }
@@ -22,12 +18,7 @@ export default class Login extends Component {
   handleLogout = e => {
     e.preventDefault();
     message.loading("logging out..",2.5);
-
-    localStorage.removeItem("accesstoken");
-    localStorage.removeItem("refreshtoken");
-    localStorage.removeItem("username");
-    localStorage.removeItem("userid");
-    localStorage.removeItem("activeUser");
+    MyConsts.clearTokens();
 
     this.setState({loggedIn: false});
     this.props.setLogout(true);
@@ -38,6 +29,7 @@ export default class Login extends Component {
     message.loading("validating..",1.0);
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        /* this does the login */
         axios.post(MyConsts.API_URL + '/api/token/', 
               {username: values.username, password: values.password}, 
               {headers: {"Content-Type": "application/json"}})
@@ -52,11 +44,11 @@ export default class Login extends Component {
             .catch(function (error) {
                 message.error("Axios backend active user error: "+error);
             })
+        /* this is silly just to get the userid */
         axios.get(MyConsts.API_URL + '/login/' + values.username + '/')
           .then(response => response.data) 
           .then((data) => {
-            console.log('userid fetch: ' + data.userid)
-
+            /* this is to fetch the rest of the user details to cache */
             axios.get(MyConsts.API_URL + '/users/'+ data.userid +'/').then(response => response.data)
               .then((data) => {
                   console.log('setting state activeUser: ', data);  // used by profile page for now -- remove/refactor ?
@@ -68,7 +60,7 @@ export default class Login extends Component {
                   user.email = data.email2;
                   user.friends = [];  // tbd
                   localStorage.setItem('activeUser',JSON.stringify(user)); // is this right - impacts Reg and Profile
-                  localStorage.setItem('userid',data.userid); // is this right - impacts Reg and Profile
+                  localStorage.setItem('userid',data.id); // is this right - impacts Reg and Profile
               })
               .catch(function (error) {
                 message.error("Axios backend active user fetch error: "+error);
@@ -129,7 +121,7 @@ export default class Login extends Component {
               valuePropName: 'checked',
               initialValue: true,
             })(<Checkbox>Remember me</Checkbox>)}
-            <a className="login-form-forgot" href="">
+            <a className="login-form-forgot" href="/forgot/">
               Forgot password
             </a>
             <Button type="primary" htmlType="submit" className="login-form-button">

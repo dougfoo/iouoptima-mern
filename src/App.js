@@ -2,8 +2,7 @@ import 'antd/dist/antd.css';
 import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, NavLink, Redirect,  } from 'react-router-dom';
-import { Form, Layout, Menu, message, } from 'antd';
-import axios from 'axios';
+import { Form, Layout, Menu,  } from 'antd';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -25,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 class App extends Component {
   state = {
-    disableMenu: true
+    disableMenu: true,
   };
 
   setLogout = (flag) => {
@@ -34,18 +33,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // fetch user and set state
+    console.log('AppDidMount',this.props);
   }
 
   render() {
     const LoginForm = Form.create()(Login);   // can i put this in the Login.js
     const RegistrationForm = Form.create()(Register);  // can i put this in Register.js
 
-    const userid = localStorage.getItem('userid');
-    const username = localStorage.getItem('username');
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
-    console.log('app render tokens', accesstoken, refreshtoken, userid, username)
+    const v = MyConsts.getTokens();
+    const username = v.username;
+    const userid = v.userid;
+    if (userid == null) {
+      console.log('userid is null');
+      MyConsts.clearTokens();  // just in case re-clear
+    }
+    console.log('userid is:', userid);
 
     return (
       <BrowserRouter >

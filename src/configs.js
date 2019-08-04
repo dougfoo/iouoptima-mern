@@ -15,3 +15,10 @@ export const getTokens = function () {
     return {accesstoken: a, refreshtoken: b, username: c, userid: d, activeUser: e};
 }
 
+export const clearTokens = function () {
+  localStorage.removeItem("accesstoken");
+  localStorage.removeItem("refreshtoken");
+  localStorage.removeItem("username");
+  localStorage.removeItem("userid");
+  localStorage.removeItem("activeUser");
+}

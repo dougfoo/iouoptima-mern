@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, InputNumber, Select, DatePicker, Input, Modal, Button, Table, message } from 'antd';
+import { InputNumber, Select, DatePicker, Input, Modal, Button, Table, message } from 'antd';
 import axios from 'axios';
 import * as MyConsts from '../configs';
 
@@ -14,10 +14,6 @@ function onSearch(val) {
 }
 
 class Loans extends Component {
-  constructor(props) {
-    super(props);
-  }
-  
   state = { 
     visible: false,
     loans: [],
@@ -134,7 +130,7 @@ class Loans extends Component {
         title: 'Payee',
         dataIndex: 'payee_email',
         key: 'payee_email',
-        render: text => <a href="javascript:;">{text}</a>,
+        render: text => <a href="/loans/">{text}</a>,
       },
       {
         title: 'Payor',
@@ -161,7 +157,7 @@ class Loans extends Component {
         key: 'action',
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Action Loan {record.name}</a>
+            <a href="/loans/">Action Loan {record.name}</a>
           </span>
         ),
       },
