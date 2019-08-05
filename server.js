@@ -46,12 +46,16 @@ router.route('/bears')
         var bear = new Bear();      // create a new instance of the Bear model
         bear.name = req.body.name;  // set the bears name (comes from the request)
         // save the bear and check for errors
-        bear.save(function(err) {
-            console.log('bear save');
-            if (err)
-                res.send(err);
-            res.json({ message: 'Bear created!' });
-        });
+        console.log('bear save1');
+        // bear.save(function(err) {
+        //     console.log('bear save2');
+        //     if (err) {
+        //         res.send(err);
+        //         console.log(err);
+        //     }
+        //     res.json({ message: 'Bear created!' });
+        // });
+        res.json({ message: 'Faux Bear created!' });
     });
 
 // --- bear routes end
