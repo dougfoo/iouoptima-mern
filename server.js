@@ -9,8 +9,8 @@ var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://admin:admin99@ds027729.mlab.com:27729/iouexpress'); // mlab free db
-var Bear     = require('./src/server/bear');
+mongoose.connect('mongodb://testuser:testuser0@ds027729.mlab.com:27729/iouexpress'); // mlab free db
+var Bear       = require('./src/server/bear');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -47,15 +47,15 @@ router.route('/bears')
         bear.name = req.body.name;  // set the bears name (comes from the request)
         // save the bear and check for errors
         console.log('bear save1');
-        // bear.save(function(err) {
-        //     console.log('bear save2');
-        //     if (err) {
-        //         res.send(err);
-        //         console.log(err);
-        //     }
-        //     res.json({ message: 'Bear created!' });
-        // });
-        res.json({ message: 'Faux Bear created!' });
+        bear.save(function(err) {
+            console.log('bear save2');
+            if (err) {
+                res.send(err);
+                console.log(err);
+            }
+            res.json({ message: 'Bear created!' });
+        });
+//        res.json({ message: 'Faux Bear created!' });
     })
     .get(function(req, res) {
         // Bear.find(function(err, bears) {
