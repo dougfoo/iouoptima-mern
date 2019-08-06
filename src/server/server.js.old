@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://testuser:testuser0@ds027729.mlab.com:27729/iouexpress'); // mlab free db
-var Bear       = require('./src/server/bear');
+var Bear       = require('./bear');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
