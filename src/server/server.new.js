@@ -25,7 +25,7 @@ var port = process.env.PORT || 8080;        // set our port
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
 
-// --- bear routes start
+// --- user routes start
 // middleware to use for all requests
 router.use(function(req, res, next) {
     // do logging
@@ -58,6 +58,7 @@ router.route('/bears')
         });
     })
     .get(function(req, res) {
+        console.log('get request.');
         Bear.find(function(err, bears) {
             if (err)
                 res.send(err);
@@ -68,7 +69,7 @@ router.route('/bears')
 
 router.route('/users')
     .post(function(req, res) {
-        console.log('post users request.');
+        console.log('post request.');
         var user = new User();      // create a new instance of the User model
         user.name = req.body.name;  // set the users name (comes from the request)
         // save the user and check for errors
@@ -83,7 +84,7 @@ router.route('/users')
         });
     })
     .get(function(req, res) {
-        console.log('get users request.');
+        console.log('get request.');
         User.find(function(err, users) {
             if (err)
                 res.send(err);
@@ -92,29 +93,8 @@ router.route('/users')
         });
     });
 
-    
-router.route('/loans')
-    .post(function(req, res) {
-        var obj = new Loan();      // create a new instance of the User model
-        obj.name = req.body.name;  
-        obj.save(function(err) {
-            console.log('Loan save2');
-            if (err) {
-                res.send(err);
-            }
-            res.json({ message: 'Loan created!' });
-        });
-    })
-    .get(function(req, res) {
-        console.log('get loans request.');
-        Loan.find(function(err, loans) {
-            if (err)
-                res.send(err);
-            res.json(loans);
-        });
-    });
-
 router.route('/users/:user_id')
+    // get the user with that id (accessed at GET http://localhost:8080/api/users/:user_id)
     .get(function(req, res) {
         User.findById(req.params.user_id, function(err, user) {
             if (err)
@@ -128,6 +108,7 @@ router.route('/users/:user_id')
         }, function(err, user) {
             if (err)
                 res.send(err);
+
             res.json({ message: 'Successfully deleted' });
         });
     })
@@ -141,8 +122,10 @@ router.route('/users/:user_id')
             user.save(function(err) {
                 if (err)
                     res.send(err);
+
                 res.json({ message: 'User updated!' });
             });
+
         });
     });
  
