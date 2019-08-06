@@ -55,27 +55,24 @@ router.route('/bears')
             }
             res.json({ message: 'Bear created!' });
         });
-//        res.json({ message: 'Faux Bear created!' });
     })
     .get(function(req, res) {
-        // Bear.find(function(err, bears) {
-        //     if (err)
-        //         res.send(err);
+        Bear.find(function(err, bears) {
+            if (err)
+                res.send(err);
 
-        //     res.json(bears);
-        // });
-        res.json({ message: 'Bear fetch get!' });
+            res.json(bears);
+        });
     });
 
 router.route('/bears/:bear_id')
     // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
     .get(function(req, res) {
-        // Bear.findById(req.params.bear_id, function(err, bear) {
-        //     if (err)
-        //         res.send(err);
-        //     res.json(bear);
-        // });
-        res.json({ message: 'Bear fetch get! ' + req.params.bear_id });
+        Bear.findById(req.params.bear_id, function(err, bear) {
+            if (err)
+                res.send(err);
+            res.json(bear);
+        });
     })
     .delete(function(req, res) {
         Bear.remove({
