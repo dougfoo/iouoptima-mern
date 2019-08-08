@@ -87,7 +87,7 @@ class App extends Component {
                   Logged In: {username}
               </div>
             </Content>
-            <Footer style={{ background: '#ddd', textAlign: 'center' }}>©2018 Doug Foo</Footer>
+            <Footer style={{ background: '#ddd', textAlign: 'center' }}>©2018 Doug Foo - Mern Edition</Footer>
           </Layout>
         </div>  
       </BrowserRouter>

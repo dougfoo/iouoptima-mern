@@ -18,7 +18,12 @@ var Loan       = require('./loan');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  
 var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
@@ -34,10 +39,6 @@ router.use(function(req, res, next) {
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
-
 // more routes for our API will happen here
 // on routes that end in /users
 // ----------------------------------------------------
@@ -151,8 +152,8 @@ router.route('/users/:user_id')
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
+// all of our routes will be prefixed with /
+app.use('/', router);
 
 // START THE SERVER
 // =============================================================================
