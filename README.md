@@ -1,26 +1,11 @@
 # iou optima
 
-My mini project to build the ultimate IOU application
-
- - Technology
-    - React front end with antd component library
-    - Django and REST on backend
-    - Integration to Mongo backend (or start with MySql)
-    - Login integration to Google / FB
-    - Hosted integration w/ Azure AWS and GCE
-
- - User management
-    - basic login/registration
-    - friends list management
-    - password management
-
- - IOU management
-    - user has an IOU pointed to a user
-    - (or split between users)
-    - IOU needs to be confirmed by other party to be LIVE
-    - (States:  Pending, Live, Paid)
-
- - Tri-party optimization / collapse
+See iouoptima project.
+This is a MERN port (or the start of one)
+ - From SQLite -> **M**ongoDB
+ - Python DJango backend to **E**xpress
+ - React remains as **R**eact
+ - **N**ode.js
 
 ![Example](https://github.com/dougfoo/iouoptima/blob/master/iou-1.png)
 
