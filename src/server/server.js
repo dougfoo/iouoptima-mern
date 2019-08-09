@@ -13,17 +13,84 @@ mongoose.connect('mongodb://testuser:testuser0@ds027729.mlab.com:27729/iouexpres
 var Bear       = require('./bear');
 var User       = require('./user');
 var Loan       = require('./loan');
+var jwt      = require('jsonwebtoken');
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+function proctectRoute(req,res,next){
+  // if user exists the token was sent with the request
+  if(req.user){
+   //if user exists then go to next middleware
+     next();
+  }
+// token was not sent with request send error to user
+  else{
+     res.status(500).json({error:'login is required'});
+  }
+}
+
+// // we can change algorithm used
+// jwt.sign({ foo: 'bar' }, cert,  //cert ???
+// { algorithm:'RS256'},function(err,token) {
+//     console.log(token);
+// });
+// // we can set expiration time using sync
+// const token2 =jwt.sign({data: 'foobar'}, 'secret',
+//  { expiresIn: 60 * 60 });
+
+// // configure app to use bodyParser()
+// // this will let us get the data from a POST
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
   
+
+// keygames.js
+
+'use strict';
+const fs   = require('fs');
+
+// PAYLOAD
+var payload = {
+ data1: "Data 1",
+ data2: "Data 2",
+ data3: "Data 3",
+ data4: "Data 4",
+};
+// PRIVATE and PUBLIC key
+var privateKEY  = fs.readFileSync('./src/server/private.key', 'utf8');
+var publicKEY  = fs.readFileSync('./src/server/public.key', 'utf8');
+var i  = 'Mysoft corp';          // Issuer 
+var s  = 'some@user.com';        // Subject 
+var a  = 'http://mysoftcorp.in'; // Audience
+
+// SIGNING OPTIONS
+var signOptions = {
+ issuer:  i,
+ subject:  s,
+ audience:  a,
+ expiresIn:  "12h",
+ algorithm:  "RS256"
+};
+
+var token = jwt.sign(payload, privateKEY, signOptions);
+console.log("Token - " + token)
+
+// verify token
+var verifyOptions = {
+    issuer:  i,
+    subject:  s,
+    audience:  a,
+    expiresIn:  "12h",
+    algorithm:  ["RS256"]
+};
+var legit = jwt.verify(token, publicKEY, verifyOptions);
+console.log("\nJWT verification result: " + JSON.stringify(legit));
+
+
+// standard stuff  
 var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
